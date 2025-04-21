@@ -1,0 +1,31 @@
+server {
+        listen 80;
+        listen [::]:80;
+        server_name portainer.digitalprivacy.homes www.portainer.digitalprivacy.homes;
+
+        location / {
+                rewrite ^ https://$host$request_uri? permanent;
+        }
+}
+
+server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name portainer.digitalprivacy.homes www.portainer.digitalprivacy.homes;
+
+        ssl_certificate /etc/nginx/ssl/digitalprivacy.homes.cer;
+        ssl_certificate_key /etc/nginx/ssl/digitalprivacy.homes.key;
+        include /etc/nginx/ssl/ssl-options.conf;
+
+        access_log /var/log/nginx/portainer.digitalprivacy.homes_access.log;
+        error_log /var/log/nginx/portainer.digitalprivacy.homes-error.log;
+
+        location / {
+                proxy_pass         http://127.0.0.1:9000;
+                proxy_http_version                   1.1;
+                proxy_set_header   Upgrade $http_upgrade;
+                proxy_set_header   Connection  'upgrade';
+                proxy_set_header   Host            $host;
+                proxy_cache_bypass         $http_upgrade; 
+        }
+}

@@ -1,0 +1,39 @@
+---
+- name: Create directory portainer.
+  ansible.builtin.file:
+    path: /opt/portainer
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Copy docker-compose.yml.j2 to /opt/portainer/
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "/opt/portainer/docker-compose.yml"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  with_items:
+    - "{{ portainer | default() }}"
+
+- name: Pull image and start
+  shell: cd /opt/portainer/ && docker compose up -d
+
+- name: Copy nginx host file to proxy portainer.
+  copy:
+    src: "files/portainer.digitalprivacy.homes"
+    dest: "/etc/nginx/sites-available/portainer.digitalprivacy.homes"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Create a symbolic link of portainer.digitalprivacy.homes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/portainer.digitalprivacy.homes
+    dest: /etc/nginx/sites-enabled/portainer.digitalprivacy.homes
+    owner: root
+    group: root
+    state: link
+  notify:
+    - Reload nginx

@@ -1,0 +1,55 @@
+---
+- name: Create directory wireguard.
+  ansible.builtin.file:
+    path: /opt/wireguard
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Pull image and get hashkey
+  shell: cd /opt/wireguard/ && docker run --rm -it ghcr.io/wg-easy/wg-easy wgpw '{{ item.wg_pass | default(wg_pass) }}'
+  # loop:
+  #   - "{{ wireguard | default() }}"
+  register: hashkey
+
+# Still trying to get only the output of `stdout` without "" (quotes in the "PASSWORD_HASH=.....")
+# and checking the "loop wireguard". loop `results`` doesn't print `stdout`.
+# - name: Show hashkey
+#   debug:
+#     msg: "{{ hashkey.stdout }}"
+#   # loop: "{{ hashkey.results }}"
+
+- name: Copy docker-compose.yml.j2 to /opt/wireguard/
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "/opt/wireguard/docker-compose.yml"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  with_items:
+    - "{{ wireguard | default() }}"
+
+- name: Delete quotes in line 15 "PASSWORD_HASH="
+  shell: cd /opt/wireguard/ && sed -i '15s/"//g' docker-compose.yml
+
+- name: Start image
+  shell: cd /opt/wireguard/ && docker compose up -d
+
+- name: Copy nginx host file to proxy wireguard.
+  copy:
+    src: "files/wireguard.digitalprivacy.homes"
+    dest: "/etc/nginx/sites-available/wireguard.digitalprivacy.homes"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Create a symbolic link of wireguard.digitalprivacy.homes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/wireguard.digitalprivacy.homes
+    dest: /etc/nginx/sites-enabled/wireguard.digitalprivacy.homes
+    owner: root
+    group: root
+    state: link
+  notify:
+    - Reload nginx

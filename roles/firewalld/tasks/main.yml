@@ -1,0 +1,74 @@
+---
+- name: Install firewalld and ipset
+  package:
+    update_cache: yes
+    name: 
+      - "firewalld"
+      - "ipset"
+    state: present
+
+- name: Set main interface to public zone
+  ansible.posix.firewalld:
+    zone: public
+    interface: "{{ item.public_interface | default(public_interface) }}"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items: "{{ firewalld | default() }}"
+
+- name: Disable default dhcpv6-client rule
+  ansible.posix.firewalld:
+    zone: public
+    service: dhcpv6-client
+    state: disabled
+    permanent: yes
+    immediate: yes
+
+- name: Disable ssh service ...
+  ansible.posix.firewalld:
+    zone: public
+    service: ssh
+    state: disabled
+    permanent: yes
+
+- name: ... instead, allow the ssh port after you have deactivated the ssh service. This is easier than changing the ssh port in the ssh service itself, which the module does not support.
+  ansible.posix.firewalld:
+    zone: public
+    port: "{{ item.ssh_port | default(ssh_port) }}/tcp"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  with_items: "{{ firewalld | default() }}"
+  when: item.allow_ssh_ports | default('true') | bool
+
+- name: Permit traffic in public zone for https service
+  ansible.posix.firewalld:
+    zone: public
+    service: https
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: item.allow_https_ports | default('true') | bool
+
+- name: Permit traffic in public zone for http service
+  ansible.posix.firewalld:
+    zone: public
+    service: http
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: item.allow_https_ports | default('true') | bool
+
+- name: Permit traffic in public zone for dns service
+  ansible.posix.firewalld:
+    zone: public
+    service: dns
+    state: enabled
+    permanent: yes
+    immediate: yes
+
+- name: Start and enable firewalld
+  service:
+    name: firewalld
+    enabled: "{{ configure_firewall }}"
+    state: "{{ configure_firewall | ternary('started', 'stopped') }}"

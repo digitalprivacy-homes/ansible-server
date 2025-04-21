@@ -1,0 +1,40 @@
+---
+- name: Check if AdGuardHome.service is available (already installed).
+  command: systemctl status AdGuardHome.service
+  changed_when: false
+  register: adguardhome_status
+  ignore_errors: true
+
+- name: Install AdGuard Home
+  shell: curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
+  when: adguardhome_status.rc != 0
+
+- name: Copy config file
+  template:
+    src: "templates/AdGuardHome.yaml.j2"
+    dest: "/opt/AdGuardHome/AdGuardHome.yaml"
+    owner: "root"
+    group: "root"
+    mode: '0644'
+  with_items: 
+    - "{{ adguardhome | default() }}"
+  notify:
+    - Restart AdGuardHome
+
+- name: Copy nginx host file to proxy adguardhome.
+  copy:
+    src: "files/adguardhome.digitalprivacy.homes"
+    dest: "/etc/nginx/sites-available/adguardhome.digitalprivacy.homes"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Create a symbolic link of adguardhome.digitalprivacy.homes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/adguardhome.digitalprivacy.homes
+    dest: /etc/nginx/sites-enabled/adguardhome.digitalprivacy.homes
+    owner: root
+    group: root
+    state: link
+  notify:
+    - Reload nginx

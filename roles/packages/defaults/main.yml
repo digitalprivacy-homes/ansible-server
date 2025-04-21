@@ -1,0 +1,11 @@
+---
+packages: 
+  - "curl"
+  - "wget"
+  - "bash-completion"
+  - "net-tools"
+  - "dnsutils"
+  - "git"
+  - "man"
+  - "apparmor-utils"
+  - "htop"

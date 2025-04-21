@@ -1,0 +1,4 @@
+---
+- name: Server restart, e.g. after a specific installation where a restart is required
+  ansible.builtin.reboot:
+    # reboot_timeout: 3600

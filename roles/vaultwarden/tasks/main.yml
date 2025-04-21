@@ -1,0 +1,49 @@
+---
+- name: Create directory vaultwarden.
+  ansible.builtin.file:
+    path: /opt/vaultwarden
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Copy docker-compose.yml.j2 to /opt/vaultwarden/
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "/opt/vaultwarden/docker-compose.yml"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  with_items:
+    - "{{ vaultwarden | default() }}"
+
+- name: Copy env.j2 to /opt/vaultwarden/
+  template:
+    src: "templates/env.j2"
+    dest: "/opt/vaultwarden/.env"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  with_items:
+    - "{{ vaultwarden | default() }}"
+
+- name: Pull image and start
+  shell: cd /opt/vaultwarden/ && docker compose up -d
+
+- name: Copy nginx host file to proxy vaultwarden.
+  copy:
+    src: "files/vaultwarden.digitalprivacy.homes"
+    dest: "/etc/nginx/sites-available/vaultwarden.digitalprivacy.homes"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Create a symbolic link of vaultwarden.digitalprivacy.homes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/vaultwarden.digitalprivacy.homes
+    dest: /etc/nginx/sites-enabled/vaultwarden.digitalprivacy.homes
+    owner: root
+    group: root
+    state: link
+  notify:
+    - Reload nginx

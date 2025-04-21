@@ -1,0 +1,37 @@
+namespace: digitalprivacy_homes
+name: server
+version: 0.0.1
+readme: README.md
+authors:
+  - DIGITAL PRIVACY .HOMES <hello@chat.digitalprivacy.homes>
+description: 'This collection provides solutions for digital privacy that are only intended for home use.'
+license:
+  - GPL-3.0-or-later
+license_file: ''
+tags:
+  - server
+  - privacy
+  - linux
+  - debian
+  - adguardhome
+  - cockpit
+  - docker
+  - firewalld
+  - msmtp
+  - nginx
+  - portainer
+  - searxng
+  - unattended_upgrades
+  - unbound
+  - vaultwarden
+  - wg-easy
+  - wireguard
+dependencies:
+  ansible.posix: '>=1.0.0'
+  community.general: '>=1.0.0'
+  community.crypto: '>=1.0.0'
+repository: 'https://github.com/digitalprivacy-homes/ansible-server/'
+homepage: 'https://digitalprivacy.homes/'
+issues: 'https://codeberg.org/digitalprivacy-homes/ansible-server/issues'
+build_ignore:
+  - .github

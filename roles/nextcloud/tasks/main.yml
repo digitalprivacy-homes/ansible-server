@@ -1,0 +1,54 @@
+---
+- name: Create directory nextcloud.
+  ansible.builtin.file:
+    path: /opt/nextcloud
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Copy docker-compose.yml.j2 to /opt/nextcloud/
+  template:
+    src: "templates/docker-compose.yml.j2"
+    dest: "/opt/nextcloud/docker-compose.yml"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  with_items:
+    - "{{ nextcloud | default() }}"
+
+- name: Pull image and start
+  shell: cd /opt/nextcloud/ && docker compose up -d
+
+- name: Copy nginx host file to proxy nextcloud.
+  copy:
+    src: "files/nextcloud.digitalprivacy.homes"
+    dest: "/etc/nginx/sites-available/nextcloud.digitalprivacy.homes"
+    owner: "root"
+    group: "root"
+    mode: '0640'
+
+- name: Create a symbolic link of nextcloud.digitalprivacy.homes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/nextcloud.digitalprivacy.homes
+    dest: /etc/nginx/sites-enabled/nextcloud.digitalprivacy.homes
+    owner: root
+    group: root
+    state: link
+  notify:
+    - Reload nginx
+
+- name: Open port 8080/tcp for AIO interface and 3478/tcp, 3478/udp for Talk app/container
+  ansible.posix.firewalld:
+    zone: public
+    port: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  with_items:
+     - 8080/tcp
+     - 3478/tcp
+     - 3478/udp
+  notify:
+    - Restart firewalld
+

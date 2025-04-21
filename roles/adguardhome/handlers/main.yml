@@ -1,0 +1,10 @@
+---
+- name: Restart AdGuardHome
+  ansible.builtin.systemd:
+    name: AdGuardHome.service
+    state: restarted
+
+- name: Reload nginx
+  ansible.builtin.systemd:
+    name: nginx.service
+    state: reloaded

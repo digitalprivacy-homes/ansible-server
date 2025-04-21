@@ -1,0 +1,29 @@
+---
+- name: Install logrotate
+  package:
+    update_cache: true
+    name: logrotate
+    state: present
+
+- name: Copy config file
+  copy:
+    src: "files/{{ item }}"
+    dest: "/etc/logrotate.conf"
+    owner: "root"
+    group: "root"
+    mode: '0644'
+  with_items:
+    - logrotate.conf
+  ignore_errors: true
+  notify:
+    - Restart logrotate
+
+- name: Copy docker_container logrotate file
+  copy:
+    src: "files/docker_container"
+    dest: "/etc/logrotate.d/docker_container"
+    owner: "root"
+    group: "root"
+    mode: '0644'
+  notify:
+    - Restart logrotate

@@ -1,0 +1,35 @@
+#!/bin/bash
+# Part of DIGITAL PRIVACY .HOMES.
+# This script checks the IP address of the server to see whether it has changed or not.
+# If it has changed, also changes the new IP address for all necessary services - AdGuardHome (rewrite Domains).
+
+OLDIP={{ ansible_default_ipv4.address }}
+IP=$(hostname -I | awk '{print $1}')
+
+if [[ "$OLDIP" = "$IP" ]]; then
+    echo "Same IP address 
+$IP
+There is nothing else to do here."
+    sleep 2s
+else
+    # AdGuardHome
+    sudo sed -i "s/answer:.*/answer: $IP/g" /opt/AdGuardHome/AdGuardHome.yaml
+    # Restart services
+    echo "IP replaced for AdGuardHome (rewrite Domains)."
+    echo "Restarting AdGuardHome.service."
+    sudo systemctl restart AdGuardHome.service
+
+    # Check failed services
+    printf "\n"
+    echo "Check failed services"
+    systemctl --failed
+
+    printf "\n"
+    echo "Please note that the server IP has changed. You must also change the DNS entry on your router or computer. This will ensure that you can continue to access your services!"
+    echo "Your new IP is $IP"
+
+    printf "\n"
+    echo "All done!"
+fi
+# Overwrite the new IP to the OLDIP variable.
+sudo sed -i "6s/OLDIP=.*/OLDIP=$IP/" /usr/local/bin/digitalprivacy-update_ip

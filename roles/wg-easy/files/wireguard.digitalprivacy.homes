@@ -1,0 +1,30 @@
+server {
+        listen 80;
+        listen [::]:80;
+        server_name wireguard.digitalprivacy.homes www.wireguard.digitalprivacy.homes;
+
+        location / {
+                rewrite ^ https://$host$request_uri? permanent;
+        }
+}
+
+server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name wireguard.digitalprivacy.homes www.wireguard.digitalprivacy.homes;
+
+        ssl_certificate /etc/nginx/ssl/digitalprivacy.homes.cer;
+        ssl_certificate_key /etc/nginx/ssl/digitalprivacy.homes.key;
+        include /etc/nginx/ssl/ssl-options.conf;
+
+        access_log /var/log/nginx/wireguard.digitalprivacy.homes_access.log;
+        error_log /var/log/nginx/wireguard.digitalprivacy.homes-error.log;
+
+        location / {
+                proxy_pass         http://127.0.0.1:51821;
+                proxy_http_version                   1.1;
+                proxy_set_header   Upgrade $http_upgrade;
+                proxy_set_header   Connection  'upgrade';
+                proxy_set_header   Host            $host;
+        }
+}

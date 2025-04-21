@@ -1,0 +1,138 @@
+user_name: "{{ ansible_user }}"
+user_password: $2a$10$P0jj3MzB8GnAjuorV6gbFu.3S3Zhc2MGl1EOJ4pIy8gjdd9uDXz4i
+fallback_dns: |
+  - sdns://AQcAAAAAAAAAEjM3LjIyMS4xOTQuODQ6NDQzNCCiyGRvm0TcyJmI7lTXstgh-8AoAAiFcTQQp7Od_brTYCIyLmRuc2NyeXB0LWNlcnQuZGlnaXRhbHByaXZhY3kuZGl5
+parental_enabled: true
+safebrowsing_enabled: true
+filters: |
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+    name: AdGuard DNS filter
+    id: 1
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+    name: AdAway Default Blocklist
+    id: 2
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_38.txt
+    name: 1Hosts (mini)
+    id: 3
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_4.txt
+    name: Dan Pollock's List
+    id: 4
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_49.txt
+    name: HaGeZi's Ultimate Blocklist
+    id: 5
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt
+    name: OISD Blocklist Big
+    id: 6
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_3.txt
+    name: Peter Lowe's Blocklist
+    id: 7
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_33.txt
+    name: Steven Black's List
+    id: 8
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_39.txt
+    name: Dandelion Sprout's Anti Push Notifications
+    id: 9
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_6.txt
+    name: Dandelion Sprout's Game Console Adblock List
+    id: 10
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_46.txt
+    name: HaGeZi's Anti-Piracy Blocklist
+    id: 11
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt
+    name: HaGeZi's Gambling Blocklist
+    id: 12
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt
+    name: Malicious URL Blocklist (URLHaus)
+    id: 13
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_37.txt
+    name: No Google
+    id: 14
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_50.txt
+    name: uBlock₀ filters – Badware risks
+    id: 15
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt
+    name: Perflyst and Dandelion Sprout's Smart-TV Blocklist
+    id: 16
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt
+    name: The Big List of Hacked Malware Web Sites
+    id: 17
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_23.txt
+    name: WindowsSpyBlocker - Hosts spy rules
+    id: 18
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_31.txt
+    name: Stalkerware Indicators List
+    id: 19
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt
+    name: Phishing URL Blocklist (PhishTank and OpenPhish)
+    id: 1702771226
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_42.txt
+    name: ShadowWhisperer's Malware List
+    id: 20
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt
+    name: Dandelion Sprout's Anti-Malware List
+    id: 21
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_10.txt
+    name: Scam Blocklist by DurableNapkin
+    id: 22
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_8.txt
+    name: NoCoin Filter List
+    id: 23
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt
+    name: HaGeZi's Threat Intelligence Feeds
+    id: 24
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_18.txt
+    name: Phishing Army
+    id: 25
+  - enabled: false
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt
+    name: HaGeZi's Encrypted DNS/VPN/TOR/Proxy Bypass
+    id: 26
+statistics_ignored: |
+  - adguardhome.digitalprivacy.homes
+  - cockpit.digitalprivacy.homes
+  - nextcloud.digitalprivacy.homes
+  - portainer.digitalprivacy.homes
+  - searxng.digitalprivacy.homes
+  - vaultwarden.digitalprivacy.homes
+  - wireguard.digitalprivacy.homes
+rewrites: |
+  - domain: adguardhome.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: cockpit.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: nextcloud.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: portainer.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: searxng.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: vaultwarden.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}
+  - domain: wireguard.digitalprivacy.homes
+    answer: {{ ansible_default_ipv4.address }}

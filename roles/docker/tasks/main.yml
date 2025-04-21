@@ -1,0 +1,46 @@
+---
+- name: Install ca-certificates and curl packages to add docker debian repo and keys.
+  package:
+    update_cache: yes    
+    name: 
+      - "ca-certificates"
+      - "curl"
+    state: present
+
+- name: Download docker key.
+  shell: "{{ item }}"
+  with_items:
+    - install -m 0755 -d /etc/apt/keyrings
+    - curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    - chmod a+r /etc/apt/keyrings/docker.asc
+    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Install docker
+  package:
+    update_cache: yes    
+    name: 
+      - "docker-ce" 
+      - "docker-ce-cli" 
+      - "containerd.io"
+      - "docker-buildx-plugin"
+      - "docker-compose-plugin"
+    state: present
+
+- name: Add local dns to docker default
+  ansible.builtin.lineinfile:
+    path: /etc/default/docker
+    insertafter: '^#DOCKER_OPTS='
+    line: 'DOCKER_OPTS="--dns 127.0.0.1"'
+  notify:
+    - Restart Docker
+
+# Might change it to /etc/docker/daemon.json with debian trixie
+# - name: Copy daemon.json file to /etc/docker/.
+#   template:
+#     src: "templates/daemon.json.j2"
+#     dest: "/etc/docker/daemon.json"
+#     owner: "root"
+#     group: "root"
+#     mode: '0640'
+#   notify:
+#     - Restart Docker

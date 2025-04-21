@@ -1,0 +1,9 @@
+[apt]
+frontend=pager
+which=both
+email_address={{ item.listchanges_email | default(listchanges_email) }}
+email_format=text
+confirm=false
+headers=false
+reverse=false
+save_seen=/var/lib/apt/listchanges.db

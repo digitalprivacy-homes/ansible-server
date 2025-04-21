@@ -1,0 +1,6 @@
+wg_host: "{{ ansible_default_ipv4.address }}"
+wg_dns: "{{ ansible_default_ipv4.address }}"
+#wg_dns: 127.0.0.1
+# Change passwd
+wg_pass: digitalprivacy
+wg_hashkey: "{{ hashkey.stdout }}"

@@ -1,0 +1,21 @@
+---
+- name: Install unbound
+  package:
+    update_cache: true
+    name: 
+    - unbound
+    - resolvconf
+    state: present
+
+- name: Disable resolvconf+unbound hook. Otherwise unbound-resolvconf.service failed after reboot.
+  shell: chmod -x /etc/resolvconf/update.d/unbound
+
+- name: Copy config file
+  copy:
+    src: "files/unbound.conf"
+    dest: "/etc/unbound/unbound.conf"
+    owner: "root"
+    group: "root"
+    mode: '0644'
+  notify:
+    - Restart unbound

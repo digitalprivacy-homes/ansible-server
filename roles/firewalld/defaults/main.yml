@@ -1,0 +1,9 @@
+---
+# If you don't use ssh, set to `false`. 
+allow_ssh_ports: true
+ssh_port: "{{ ansible_port }}"
+# If you are using this role on a desktop PC, it may not be necessary to enable http/s ports.
+# So set it to `false` if you do not want to open the http/s ports.
+allow_https_ports: true
+# It's set you interface for the specific zone.
+public_interface: "{{ ansible_default_ipv4.interface }}"
