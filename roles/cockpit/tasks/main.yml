@@ -1,6 +1,6 @@
 ---
 - name: Install cockpit
-  package:
+  ansible.builtin.package:
     update_cache: true
     name: cockpit
     state: present
@@ -11,7 +11,7 @@
     state: absent
 
 - name: Copy nginx host file to proxy cockpit.
-  copy:
+  ansible.builtin.copy:
     src: "files/cockpit.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/cockpit.digitalprivacy.homes"
     owner: "root"

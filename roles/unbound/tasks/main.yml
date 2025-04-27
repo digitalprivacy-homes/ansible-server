@@ -1,6 +1,6 @@
 ---
 - name: Install unbound
-  package:
+  ansible.builtin.package:
     update_cache: true
     name: 
     - unbound
@@ -8,10 +8,10 @@
     state: present
 
 - name: Disable resolvconf+unbound hook. Otherwise unbound-resolvconf.service failed after reboot.
-  shell: chmod -x /etc/resolvconf/update.d/unbound
+  ansible.builtin.shell: chmod -x /etc/resolvconf/update.d/unbound
 
 - name: Copy config file
-  copy:
+  ansible.builtin.copy:
     src: "files/unbound.conf"
     dest: "/etc/unbound/unbound.conf"
     owner: "root"

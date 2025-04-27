@@ -1,13 +1,13 @@
 ---
 - name: Clone searxng git repo
-  git:
+  ansible.builtin.git:
     repo: https://github.com/searxng/searxng-docker.git
     dest: /opt/searxng
     accept_hostkey: yes
     force: yes
 
 - name: Copy .env file
-  copy:
+  ansible.builtin.copy:
     src: "files/env"
     dest: "/opt/searxng/.env"
     owner: "root"
@@ -15,7 +15,7 @@
     mode: '0644'
 
 - name: Copy settings.yml file
-  copy:
+  ansible.builtin.copy:
     src: "files/settings.yml"
     dest: "/opt/searxng/searxng/settings.yml"
     owner: "root"
@@ -27,7 +27,7 @@
 
 # Why this step? Check https://github.com/searxng/searxng-docker?tab=readme-ov-file#how-to-use-it
 - name: Copy docker-compose.yaml.without_cap_drop file for the first start
-  copy:
+  ansible.builtin.copy:
     src: "files/docker-compose.yaml.without_cap_drop"
     dest: "/opt/searxng/docker-compose.yaml"
     owner: "root"
@@ -35,13 +35,13 @@
     mode: '0644'
 
 - name: Pull images and start
-  shell: cd /opt/searxng/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/searxng/ && docker compose up -d
 
 - name: Stop container again after the start
-  shell: cd /opt/searxng/ && docker compose down
+  ansible.builtin.shell: cd /opt/searxng/ && docker compose down
 
 - name: Copy docker-compose.yaml after first start (cap_drop)
-  template:
+  ansible.builtin.template:
     src: "templates/docker-compose.yaml.j2"
     dest: "/opt/searxng/docker-compose.yaml"
     owner: "root"
@@ -51,10 +51,10 @@
     - "{{ searxng | default() }}"
 
 - name: Final start
-  shell: cd /opt/searxng/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/searxng/ && docker compose up -d
 
 - name: Copy nginx host file to proxy searxng.
-  copy:
+  ansible.builtin.copy:
     src: "files/searxng.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/searxng.digitalprivacy.homes"
     owner: "root"

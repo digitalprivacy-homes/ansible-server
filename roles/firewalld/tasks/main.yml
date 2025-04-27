@@ -1,6 +1,6 @@
 ---
 - name: Install firewalld and ipset
-  package:
+  ansible.builtin.package:
     update_cache: yes
     name: 
       - "firewalld"
@@ -68,7 +68,7 @@
     immediate: yes
 
 - name: Start and enable firewalld
-  service:
+  ansible.builtin.systemd:
     name: firewalld
     enabled: "{{ configure_firewall }}"
     state: "{{ configure_firewall | ternary('started', 'stopped') }}"

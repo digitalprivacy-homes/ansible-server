@@ -8,7 +8,7 @@
     mode: '0640'
 
 - name: Copy docker-compose.yml.j2 to /opt/portainer/
-  template:
+  ansible.builtin.template:
     src: "templates/docker-compose.yml.j2"
     dest: "/opt/portainer/docker-compose.yml"
     owner: "root"
@@ -18,10 +18,10 @@
     - "{{ portainer | default() }}"
 
 - name: Pull image and start
-  shell: cd /opt/portainer/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/portainer/ && docker compose up -d
 
 - name: Copy nginx host file to proxy portainer.
-  copy:
+  ansible.builtin.copy:
     src: "files/portainer.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/portainer.digitalprivacy.homes"
     owner: "root"

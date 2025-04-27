@@ -1,13 +1,13 @@
 ---
 - name: Install tor/socks. Necessary to download the certificates via tor.
-  package:
+  ansible.builtin.package:
     update_cache: yes
     name: 
       - "torsocks"
     state: present
 
 - name: Copy whiptail script digitalprivacy.sh to /usr/local/bin/
-  copy:
+  ansible.builtin.copy:
     src: files/digitalprivacy.sh
     dest: "/usr/local/bin/digitalprivacy"
     owner: "root"
@@ -15,7 +15,7 @@
     mode: "0755"
 
 - name: Copy script digitalprivacy-update_ip.sh to /usr/local/bin/
-  template:
+  ansible.builtin.template:
     src: templates/digitalprivacy-update_ip.sh.j2
     dest: "/usr/local/bin/digitalprivacy-update_ip"
     owner: "root"
@@ -29,7 +29,7 @@
     job: "sleep 10s && /usr/local/bin/digitalprivacy-update_ip > /dev/null 2>&1"
 
 - name: Copy script digitalprivacy-update_certificates.sh to /usr/local/bin/
-  copy:
+  ansible.builtin.copy:
     src: files/digitalprivacy-update_certificates.sh
     dest: "/usr/local/bin/digitalprivacy-update_certificates"
     owner: "root"
@@ -43,7 +43,7 @@
     job: "/usr/local/bin/digitalprivacy-update_certificates > /dev/null 2>&1"
 
 - name: Copy /etc/issue
-  template:
+  ansible.builtin.template:
     src: templates/issue.j2
     dest: "/etc/issue"
     owner: "root"
@@ -53,7 +53,7 @@
     - "{{ digitalprivacy | default() }}"
 
 - name: Copy issue.net to /etc/issue.net
-  template:
+  ansible.builtin.template:
     src: templates/issue.net.j2
     dest: "/etc/issue.net"
     owner: "root"
@@ -63,7 +63,7 @@
     - "{{ digitalprivacy | default() }}"
 
 - name: Copy issue.net to /etc/motd
-  template:
+  ansible.builtin.template:
     src: templates/issue.net.j2
     dest: "/etc/motd"
     owner: "root"
@@ -73,5 +73,5 @@
     - "{{ digitalprivacy | default() }}"
 
 - name: Add autostart for digitalprivacy whiptail script to ~/.bashrc 
-  shell: echo "/usr/local/bin/digitalprivacy" >> ~/.bashrc
+  ansible.builtin.shell: echo "/usr/local/bin/digitalprivacy" >> ~/.bashrc
   become_user: "{{ ansible_user }}"

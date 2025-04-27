@@ -8,7 +8,7 @@
     mode: '0640'
 
 - name: Copy docker-compose.yml.j2 to /opt/vaultwarden/
-  template:
+  ansible.builtin.template:
     src: "templates/docker-compose.yml.j2"
     dest: "/opt/vaultwarden/docker-compose.yml"
     owner: "root"
@@ -18,7 +18,7 @@
     - "{{ vaultwarden | default() }}"
 
 - name: Copy env.j2 to /opt/vaultwarden/
-  template:
+  ansible.builtin.template:
     src: "templates/env.j2"
     dest: "/opt/vaultwarden/.env"
     owner: "root"
@@ -28,10 +28,10 @@
     - "{{ vaultwarden | default() }}"
 
 - name: Pull image and start
-  shell: cd /opt/vaultwarden/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/vaultwarden/ && docker compose up -d
 
 - name: Copy nginx host file to proxy vaultwarden.
-  copy:
+  ansible.builtin.copy:
     src: "files/vaultwarden.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/vaultwarden.digitalprivacy.homes"
     owner: "root"

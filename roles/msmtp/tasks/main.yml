@@ -1,6 +1,6 @@
 ---
 - name: Install msmtp packages
-  package:
+  ansible.builtin.package:
     update_cache: yes
     name:
       - msmtp
@@ -8,7 +8,7 @@
     state: present
 
 - name: Copy config file
-  template:
+  ansible.builtin.template:
     src: templates/msmtprc.j2
     dest: "{{ item.path | default(path) }}"
     owner: "{{ item.user | default(user) }}"

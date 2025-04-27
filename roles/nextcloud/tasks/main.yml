@@ -8,7 +8,7 @@
     mode: '0640'
 
 - name: Copy docker-compose.yml.j2 to /opt/nextcloud/
-  template:
+  ansible.builtin.template:
     src: "templates/docker-compose.yml.j2"
     dest: "/opt/nextcloud/docker-compose.yml"
     owner: "root"
@@ -18,10 +18,10 @@
     - "{{ nextcloud | default() }}"
 
 - name: Pull image and start
-  shell: cd /opt/nextcloud/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/nextcloud/ && docker compose up -d
 
 - name: Copy nginx host file to proxy nextcloud.
-  copy:
+  ansible.builtin.copy:
     src: "files/nextcloud.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/nextcloud.digitalprivacy.homes"
     owner: "root"

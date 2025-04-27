@@ -1,12 +1,12 @@
 ---
 - name: Install logrotate
-  package:
+  ansible.builtin.package:
     update_cache: true
     name: logrotate
     state: present
 
 - name: Copy config file
-  copy:
+  ansible.builtin.copy:
     src: "files/{{ item }}"
     dest: "/etc/logrotate.conf"
     owner: "root"
@@ -19,7 +19,7 @@
     - Restart logrotate
 
 - name: Copy docker_container logrotate file
-  copy:
+  ansible.builtin.copy:
     src: "files/docker_container"
     dest: "/etc/logrotate.d/docker_container"
     owner: "root"
