@@ -1,0 +1,67 @@
+---
+# Start playbook: ansible-playbook playbook-digitalprivacy.homes.yml --ask-pass 
+## Add --ask-vault-pass if necessary.
+- name: Harden and installs all services on your Debian server
+  become: true
+  hosts: digitalprivacy.homes
+
+  pre_tasks:
+    - name: Creates the folder ~/.ssh
+      become: false
+      ansible.builtin.file:
+        path: "~/.ssh"
+        state: directory
+      delegate_to: localhost
+    - name: Generate an OpenSSH keypair
+      become: false
+      community.crypto.openssh_keypair:
+        path: "~/.ssh/{{ inventory_hostname }}_ed25519"
+        type: "ed25519"
+      delegate_to: localhost
+    # (!?) Can't be used: gather facts needs to be possible to use variables. 
+    # Maybe another idea comes up to implement this here instead of the script `install_ansible_on_workstation.sh`
+    # - name: Add server to the ssh configuration
+    #   become: false
+    #   community.general.ssh_config:
+    #     user: "{{ ansible_user }}"
+    #     host: "{{ inventory_hostname }}"
+    #     hostname: "{{ ansible_default_ipv4.address }}"
+    #     identity_file: "~/.ssh/{{ inventory_hostname }}_ed25519"
+    #     port: '{{ ansible_port }}'
+    #     state: present
+    #   delegate_to: localhost
+    - name: Copy pub key to new server for ansible to work properly especialy after ssh_hardening.
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        manage_dir: yes
+        key: "{{ lookup('file', '~/.ssh/{{ inventory_hostname }}_ed25519.pub') }}"
+
+  # Don't move the roles around. The order is important (packages & reboot).
+  roles:
+    - digitalprivacy-server-homes/packages
+    # dev-sec. These two roles are from https://github.com/dev-sec/ansible-collection-hardening/
+    - devsec.hardening.ssh_hardening
+    - devsec.hardening.os_hardening
+    # dev-sec END
+    - digitalprivacy-server-homes/unattended_upgrades
+    - digitalprivacy-server-homes/digitalprivacy
+    - digitalprivacy-server-homes/unbound
+    - digitalprivacy-server-homes/firewalld
+    - digitalprivacy-server-homes/logrotate
+    - digitalprivacy-server-homes/nginx
+    - digitalprivacy-server-homes/adguardhome
+    - digitalprivacy-server-homes/reboot
+    - digitalprivacy-server-homes/cockpit
+    - digitalprivacy-server-homes/docker
+    - digitalprivacy-server-homes/portainer
+    - digitalprivacy-server-homes/searxng
+    - digitalprivacy-server-homes/vaultwarden
+    # wg-easy role is currently on hold and not beeing worked on until [version 15 is out](https://github.com/wg-easy/wg-easy/issues/1704).
+    # - digitalprivacy-server-homes/wg-easy
+    - digitalprivacy-server-homes/nextcloud
+
+  post_tasks:
+    - name: You'll need to follow the setup for Nextcloud manually.
+      ansible.builtin.debug:
+        msg: "Go to https://{{ ansible_default_ipv4.address }}:8080 and finish the setup (accept the risk in your browser). Use 'nextcloud.digitalprivacy.homes' as your domain. (Once every container is up and running, press Enter to continue.)"
