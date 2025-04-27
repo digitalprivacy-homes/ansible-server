@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides searxng. A privacy-respecting, hackable metasearch engine
+  company: "https://github.com/searxng/searxng"
+  license: "AGPL-3.0"
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - searxng
+    - search
+    - engine
+    - docker
+dependencies: []

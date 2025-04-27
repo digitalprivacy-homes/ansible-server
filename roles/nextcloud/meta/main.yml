@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides Nextcloud (AIO). Nextcloud AIO provides easy deployment and maintenance with most features included in this one Nextcloud instance.
+  company: "https://github.com/nextcloud/all-in-one"
+  license: AGPL-3.0
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - nextcloud
+    - cloud
+    - backup
+    - docker
+dependencies: []

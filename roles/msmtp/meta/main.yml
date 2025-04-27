@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides msmtp. msmtp is an SMTP client.
+  company: "https://marlam.de/msmtp/"
+  license: GPL-2.0
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - msmtp
+    - smtp
+    - email
+    - mail
+dependencies: []

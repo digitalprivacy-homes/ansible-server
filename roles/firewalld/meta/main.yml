@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides firewalld. A firewall management tool for Linux operating systems.
+  company: "https://firewalld.org/"
+  license: GPL-2.0
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - firewalld
+    - firewall
+    - netfilter
+    - nftables
+dependencies: 
+  - ansible.posix

@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides Cockpit. Cockpit is an interactive server admin interface. It is easy to use and very lightweight.
+  company: "https://cockpit-project.org/"
+  license: LGPL-2.1 license
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - cockpit
+    - administration
+    - sysadmin
+    - management
+dependencies: []

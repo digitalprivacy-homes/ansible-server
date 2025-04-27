@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role sets up unattended-upgrades. The purpose of unattended-upgrades is to keep the computer current with the latest security (and other) updates automatically. 
+  company: "https://wiki.debian.org/UnattendedUpgrades"
+  license: ""
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - UnattendedUpgrades
+    - debian
+    - security
+    - update
+dependencies: []

@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides AdGuard Home. A network-wide software for blocking ads & tracking. 
+  company: "https://github.com/AdguardTeam/AdGuardHome"
+  license: GPL-3.0-or-later
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - adguardhome
+    - dns
+    - ads
+    - tracking
+    - family_protection
+dependencies: []

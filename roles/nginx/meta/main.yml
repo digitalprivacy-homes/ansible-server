@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides nginx. NGINX (pronounced "engine x" or "en-jin-eks") is the world's most popular Web Server, high performance Load Balancer, Reverse Proxy, API Gateway and Content Cache.
+  company: "https://github.com/nginx/nginx"
+  license: BSD-2-Clause
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - nginx
+    - webserver
+    - proxy
+    - loadbalance
+    - cache
+dependencies: []

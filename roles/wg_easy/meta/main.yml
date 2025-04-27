@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This Ansible role provides wg-easy (wireguard). The easiest way to run WireGuard VPN + Web-based Admin UI. 
+  company: "https://github.com/wg-easy/wg-easy"
+  license: "AGPL-3.0"
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - wg_easy
+    - wireguard
+    - vpn
+    - docker
+dependencies: []
