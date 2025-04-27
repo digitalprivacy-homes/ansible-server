@@ -5,15 +5,13 @@
 # - name: Restart firewalld
 #   service: name=firewalld state=restarted
 - name: Stop firewalld
-  become: true
-  service: 
+  ansible.builtin.systemd: 
     name: firewalld
     state: stopped
   listen: Restart firewalld
 
 - name: Start firewalld
-  become: true
-  service: 
+  ansible.builtin.systemd: 
     name: firewalld
     state: started
   listen: Restart firewalld
