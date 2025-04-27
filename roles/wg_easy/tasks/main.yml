@@ -8,7 +8,7 @@
     mode: '0640'
 
 - name: Pull image and get hashkey
-  shell: cd /opt/wireguard/ && docker run --rm -it ghcr.io/wg-easy/wg-easy wgpw '{{ item.wg_pass | default(wg_pass) }}'
+  ansible.builtin.shell: cd /opt/wireguard/ && docker run --rm -it ghcr.io/wg-easy/wg-easy wgpw '{{ item.wg_pass | default(wg_pass) }}'
   # loop:
   #   - "{{ wireguard | default() }}"
   register: hashkey
@@ -21,7 +21,7 @@
 #   # loop: "{{ hashkey.results }}"
 
 - name: Copy docker-compose.yml.j2 to /opt/wireguard/
-  template:
+  ansible.builtin.template:
     src: "templates/docker-compose.yml.j2"
     dest: "/opt/wireguard/docker-compose.yml"
     owner: "root"
@@ -31,13 +31,13 @@
     - "{{ wireguard | default() }}"
 
 - name: Delete quotes in line 15 "PASSWORD_HASH="
-  shell: cd /opt/wireguard/ && sed -i '15s/"//g' docker-compose.yml
+  ansible.builtin.shell: cd /opt/wireguard/ && sed -i '15s/"//g' docker-compose.yml
 
 - name: Start image
-  shell: cd /opt/wireguard/ && docker compose up -d
+  ansible.builtin.shell: cd /opt/wireguard/ && docker compose up -d
 
 - name: Copy nginx host file to proxy wireguard.
-  copy:
+  ansible.builtin.copy:
     src: "files/wireguard.digitalprivacy.homes"
     dest: "/etc/nginx/sites-available/wireguard.digitalprivacy.homes"
     owner: "root"

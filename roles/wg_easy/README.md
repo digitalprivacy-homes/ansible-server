@@ -1,4 +1,7 @@
 # wg-easy
+> WARNING  
+> This role is currently on hold and not beeing worked on until [version 15 is out](https://github.com/wg-easy/wg-easy/issues/1704).
+
 This role installs wg-easy, which is an easy way to use wireguard (VPN). 
 
 For more information visit:  
