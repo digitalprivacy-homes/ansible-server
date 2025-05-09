@@ -39,27 +39,27 @@
 
   # Don't move the roles around. The order is important (packages & reboot).
   roles:
-    - digitalprivacy-server-homes/packages
+    - digitalprivacy_homes.server.packages
     # dev-sec. These two roles are from https://github.com/dev-sec/ansible-collection-hardening/
     - devsec.hardening.ssh_hardening
     - devsec.hardening.os_hardening
     # dev-sec END
-    - digitalprivacy-server-homes/unattended_upgrades
-    - digitalprivacy-server-homes/digitalprivacy
-    - digitalprivacy-server-homes/unbound
-    - digitalprivacy-server-homes/firewalld
-    - digitalprivacy-server-homes/logrotate
-    - digitalprivacy-server-homes/nginx
-    - digitalprivacy-server-homes/adguardhome
-    - digitalprivacy-server-homes/reboot
-    - digitalprivacy-server-homes/cockpit
-    - digitalprivacy-server-homes/docker
-    - digitalprivacy-server-homes/portainer
-    - digitalprivacy-server-homes/searxng
-    - digitalprivacy-server-homes/vaultwarden
+    - digitalprivacy_homes.server.unattended_upgrades
+    - digitalprivacy_homes.server.digitalprivacy
+    - digitalprivacy_homes.server.unbound
+    - digitalprivacy_homes.server.firewalld
+    - digitalprivacy_homes.server.logrotate
+    - digitalprivacy_homes.server.nginx
+    - digitalprivacy_homes.server.adguardhome
+    - digitalprivacy_homes.server.reboot
+    - digitalprivacy_homes.server.cockpit
+    - digitalprivacy_homes.server.docker
+    - digitalprivacy_homes.server.portainer
+    - digitalprivacy_homes.server.searxng
+    - digitalprivacy_homes.server.vaultwarden
     # wg-easy role is currently on hold and not beeing worked on until [version 15 is out](https://github.com/wg-easy/wg-easy/issues/1704).
-    # - digitalprivacy-server-homes/wg-easy
-    - digitalprivacy-server-homes/nextcloud
+    # - digitalprivacy_homes.server.wg-easy
+    - digitalprivacy_homes.server.nextcloud
 
   post_tasks:
     - name: You'll need to follow the setup for Nextcloud manually.
