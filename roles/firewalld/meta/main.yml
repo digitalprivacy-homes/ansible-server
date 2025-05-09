@@ -14,5 +14,4 @@ galaxy_info:
     - firewall
     - netfilter
     - nftables
-dependencies: 
-  - ansible.posix
+dependencies: []
