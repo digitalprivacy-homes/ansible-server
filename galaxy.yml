@@ -32,7 +32,7 @@ dependencies:
   community.crypto: '>=1.0.0'
 repository: 'https://codeberg.org/digitalprivacy-homes/ansible-server/'
 homepage: 'https://digitalprivacy.homes/'
-documentation: http://digitalprivacy.homes/
+documentation: 'https://digitalprivacy.homes/#faq'
 issues: 'https://codeberg.org/digitalprivacy-homes/ansible-server/issues'
 build_ignore:
   - .github
