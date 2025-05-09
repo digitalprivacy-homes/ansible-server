@@ -4,7 +4,10 @@
 # Repo: https://codeberg.org/digitalprivacy-homes/ansible-server
 # License: GPL-3.0-or-later
 
-# Add Ansible Ubuntu-PPA repository.
+# exit on error
+set -e
+
+# Add Ansible Ubuntu-PPA repository (https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-debian).
 UBUNTU_CODENAME=jammy
 echo "Add Ansible Ubuntu-PPA repository."
 printf "\n"
