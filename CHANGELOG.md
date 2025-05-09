@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4 (09.05.2025)
+Added http**s** for documentation link and changed to FAQ in galaxy.yml.  
+Changed role **firewalld** `dependencies: []` in meta.  
+Changed role path in the playbook example to the galaxy installation path.  
+Added exit on error in `install_ansible_on_workstation.sh` script.
+
 ## 0.0.3 (27.04.2025)
 Added `digitalprivacy.homes.yml` example `host_vars` file.  
 Added `playbook-digitalprivacy.homes.yml` example file.  
