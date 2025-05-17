@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0 (17.05.2025)
+### install_ansible_on_workstation.sh
+Added rockylinux, opensuse, ubuntu, linux mint and fedora to install ansible on the workstation [issue](https://codeberg.org/digitalprivacy-homes/ansible-server/issues/3). It also includes multiple versions of some of the distrobutions.  
+Changed hosts to `digitalprivacy.homes` and added ssh to make it clear which port it means.  
+Disabled “exit on error" to ensure a smooth process during the tests and to be able to run the script several times until a proper solution is elaborated.
+### roles
+#### firewalld
+Deleted the last task in the firewalld role "Start and activate firewalld". This is done automatically after the installation of firewalld (under Debian).  
+### playbook
+Deleted Nextcloud “...press Enter to continue” `post_tasks` `msg` in the playbook. This used to be part of the Nextcloud role itself (as a prompt) and has been moved to the post_task in the playbook and is no longer necessary as the playbook is finished after this message.   
+
 ## 0.0.4 (09.05.2025)
 Added http**s** for documentation link and changed to FAQ in galaxy.yml.  
 Changed role **firewalld** `dependencies: []` in meta.  
