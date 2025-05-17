@@ -64,4 +64,4 @@
   post_tasks:
     - name: You'll need to follow the setup for Nextcloud manually.
       ansible.builtin.debug:
-        msg: "Go to https://{{ ansible_default_ipv4.address }}:8080 and finish the setup (accept the risk in your browser). Use 'nextcloud.digitalprivacy.homes' as your domain. (Once every container is up and running, press Enter to continue.)"
+        msg: "Go to https://{{ ansible_default_ipv4.address }}:8080 and finish the setup (accept the risk in your browser). Use 'nextcloud.digitalprivacy.homes' as your domain."
