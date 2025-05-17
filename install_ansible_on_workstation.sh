@@ -5,17 +5,70 @@
 # License: GPL-3.0-or-later
 
 # exit on error
-set -e
+#set -e
 
-# Add Ansible Ubuntu-PPA repository (https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-debian).
-UBUNTU_CODENAME=jammy
-echo "Add Ansible Ubuntu-PPA repository."
-printf "\n"
+# Determine OS
+OS=$(cat /etc/os-release | grep "^ID=" | cut -d = -f 2)
+VERSION=$(cat /etc/os-release | grep "^VERSION_ID=" | cut -d \" -f 2)
+# Installs necessary packages to run the script.
+PACKAGES="wget sshpass"
 
-sudo apt install wget gpg -y
-wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | sudo gpg --dearmour -o /usr/share/keyrings/ansible-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/ansible.list
-sudo apt update && sudo apt install ansible -y
+if [[ $OS = debian ]] && [[ $VERSION = 12 ]]; then
+  # Add Ansible Ubuntu-PPA repository (https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-debian).
+  UBUNTU_CODENAME=jammy
+  echo "Add Ansible Ubuntu-PPA repository."
+  printf "\n"
+
+  sudo apt install $PACKAGES gpg -y
+  wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | sudo gpg --dearmour -o /usr/share/keyrings/ansible-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/ansible.list
+  sudo apt update
+  sudo apt install ansible -y
+
+elif [[ $OS = debian ]] && [[ $VERSION = 11 ]]; then
+  # Add Ansible Ubuntu-PPA repository (https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-debian).
+  UBUNTU_CODENAME_FOCAL=focal
+  echo "Add Ansible Ubuntu-PPA repository."
+  printf "\n"
+
+  sudo apt install $PACKAGES gpg -y
+  wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | sudo gpg --dearmour -o /usr/share/keyrings/ansible-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu $UBUNTU_CODENAME_FOCAL main" | sudo tee /etc/apt/sources.list.d/ansible.list
+  sudo apt update
+  sudo apt install ansible -y
+
+elif [[ $OS = arch ]]; then
+  sudo pacman -S ansible $PACKAGES
+
+elif [[ $OS = ubuntu ]] && [[ $VERSION = 25.04 || $VERSION = 24.04 || $VERSION = 22.04 || $VERSION = 20.04 ]] || [[ $OS = linuxmint ]]; then
+  sudo apt update
+  sudo apt install software-properties-common -y
+  sudo add-apt-repository --yes --update ppa:ansible/ansible
+  sudo apt install ansible $PACKAGES -y
+
+elif [[ $OS = ubuntu ]] && [[ $VERSION = 18.04 || $VERSION = 16.04 || $VERSION = 14.04 ]]; then
+  sudo apt-get update
+  sudo apt-get install python-software-properties -y
+  sudo add-apt-repository --yes ppa:ansible/ansible
+  sudo apt-get update
+  sudo apt-get install ansible $PACKAGES -y
+
+elif [[ $OS = \"rocky\" ]] || [[ $OS = fedora ]]; then
+  sudo dnf install epel-release -y
+  sudo dnf install ansible $PACKAGES -y
+
+elif [[ $OS = \"opensuse-tumbleweed\" ]] || [[ $OS = \"opensuse-leap\" ]]; then
+  sudo zypper install -y ansible $PACKAGES
+
+elif [[ $OS = alpine ]]; then
+  sudo apk update
+  sudo apk add ansible $PACKAGES
+
+else
+  echo "No compatible OS."
+  exit 1
+fi
+
 printf "\n"
 
 # Installation of Ansible
@@ -44,7 +97,7 @@ host_key_checking = false" >~/ansible/ansible.cfg
 
   ## Creates hosts file under ~/ansible/hosts
   echo "[home]
-digitalprivacy" >~/ansible/hosts
+digitalprivacy.homes" >~/ansible/hosts
 
   ## Creates digitalprivacy.homes.yml file under ~/ansible/host_vars
   ## And asks for the password, username and ssh port to access your server.
@@ -52,7 +105,8 @@ digitalprivacy" >~/ansible/hosts
   echo "The following username and password prompt is your user from your Debian server."
   read -p "What is the username of your debian server?" username
   read -s -p "And the sudo password?" password
-  read -p "What is the port number of your debian server?" port
+  printf "\n"
+  read -p "What is the ssh port number of your debian server?" port
   echo "---
 ansible_port: $port
 ansible_user: $username
@@ -77,6 +131,7 @@ ssh_banner_path: '/etc/issue.net'" >~/ansible/host_vars/digitalprivacy.homes.yml
   # Creates a host under .ssh/config
   printf "\n\n"
   echo "The following creates a host under .ssh/config"
+  mkdir ~/.ssh
   read -p "What is your server ip address?" ipaddress
   echo "Host digitalprivacy.homes
     HostName $ipaddress
