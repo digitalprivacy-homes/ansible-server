@@ -66,9 +66,3 @@
     state: enabled
     permanent: yes
     immediate: yes
-
-- name: Start and enable firewalld
-  ansible.builtin.systemd:
-    name: firewalld
-    enabled: "{{ configure_firewall }}"
-    state: "{{ configure_firewall | ternary('started', 'stopped') }}"
