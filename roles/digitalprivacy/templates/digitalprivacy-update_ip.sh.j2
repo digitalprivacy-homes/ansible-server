@@ -1,5 +1,7 @@
 #!/bin/bash
-# Part of DIGITAL PRIVACY .HOMES.
+# This script is made from and for https://digitalprivacy.homes (DIGITAL PRIVACY for every home).
+# Repo: https://codeberg.org/digitalprivacy-homes/ansible-server
+# License: GPL-3.0-or-later
 # This script checks the IP address of the server to see whether it has changed or not.
 # If it has changed, also changes the new IP address for all necessary services - AdGuardHome (rewrite Domains).
 
@@ -13,7 +15,7 @@ There is nothing else to do here."
     sleep 2s
 else
     # AdGuardHome
-    sudo sed -i "s/answer:.*/answer: $IP/g" /opt/AdGuardHome/AdGuardHome.yaml
+    sudo sed -i "s/answer: $OLDIP$/answer: $IP/g" /opt/AdGuardHome/AdGuardHome.yaml
     # Restart services
     echo "IP replaced for AdGuardHome (rewrite Domains)."
     echo "Restarting AdGuardHome.service."
@@ -32,4 +34,4 @@ else
     echo "All done!"
 fi
 # Overwrite the new IP to the OLDIP variable.
-sudo sed -i "6s/OLDIP=.*/OLDIP=$IP/" /usr/local/bin/digitalprivacy-update_ip
+sudo sed -i "8s/OLDIP=.*/OLDIP=$IP/" /usr/local/bin/digitalprivacy-update_ip
