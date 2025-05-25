@@ -1,5 +1,7 @@
 #!/bin/bash
-# This script is the main script of DIGITAL PRIVACY .HOMES.
+# This script is made from and for https://digitalprivacy.homes (DIGITAL PRIVACY for every home).
+# Repo: https://codeberg.org/digitalprivacy-homes/ansible-server
+# License: GPL-3.0-or-later
 # All necessary info and changes can be done via this script.
 
 # Server IP address
@@ -68,7 +70,7 @@ $IP"
             echo "Script-autostart disabled.")"
             ;;
         "8)")
-            result="$(sudo torsocks apt-get full-upgrade)"
+            result="$(sudo torsocks apt-get full-upgrade -y)"
             ;;
         "0)")
             # Exit the loop
