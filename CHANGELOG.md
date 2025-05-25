@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 (25.05.2025)
+### roles
+#### digitalprivacy
+Fixed issue [Add checksum and sign certificates](https://codeberg.org/digitalprivacy-homes/ansible-server/issues/6).  
+Fixed issue [digitalprivacy-update_ip.sh script overwrites every dns_rewrites](https://codeberg.org/digitalprivacy-homes/ansible-server/issues/1)  
+Added license, repo etc. in all digitalprivacy* scripts.  
+### README.md
+Added milestone link to New Features/Projects.
+
 ## 0.1.0 (17.05.2025)
 ### install_ansible_on_workstation.sh
 Added rockylinux, opensuse, ubuntu, linux mint and fedora to install ansible on the workstation [issue](https://codeberg.org/digitalprivacy-homes/ansible-server/issues/3). It also includes multiple versions of some of the distrobutions.  
