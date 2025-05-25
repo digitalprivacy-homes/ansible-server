@@ -34,6 +34,7 @@ See [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_gui
 ## New Features/Projects
 - [DynDNS](https://codeberg.org/digitalprivacy-homes/ansible-server/projects/16118)
 - [ntfy](https://codeberg.org/digitalprivacy-homes/ansible-server/projects/16121)
+- [Milestones](https://codeberg.org/digitalprivacy-homes/ansible-server/milestones)
 
 ## Licensing
 Licensed under GNU GENERAL PUBLIC LICENSE Version 3
