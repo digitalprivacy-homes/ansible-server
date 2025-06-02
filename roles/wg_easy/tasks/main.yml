@@ -7,33 +7,15 @@
     group: "root"
     mode: '0640'
 
-- name: Pull image and get hashkey
-  ansible.builtin.shell: cd /opt/wireguard/ && docker run --rm -it ghcr.io/wg-easy/wg-easy wgpw '{{ item.wg_pass | default(wg_pass) }}'
-  # loop:
-  #   - "{{ wireguard | default() }}"
-  register: hashkey
-
-# Still trying to get only the output of `stdout` without "" (quotes in the "PASSWORD_HASH=.....")
-# and checking the "loop wireguard". loop `results`` doesn't print `stdout`.
-# - name: Show hashkey
-#   debug:
-#     msg: "{{ hashkey.stdout }}"
-#   # loop: "{{ hashkey.results }}"
-
-- name: Copy docker-compose.yml.j2 to /opt/wireguard/
-  ansible.builtin.template:
-    src: "templates/docker-compose.yml.j2"
+- name: Copy docker-compose.yml to /opt/wireguard/
+  ansible.builtin.copy:
+    src: "files/docker-compose.yml"
     dest: "/opt/wireguard/docker-compose.yml"
     owner: "root"
     group: "root"
     mode: '0640'
-  with_items:
-    - "{{ wireguard | default() }}"
 
-- name: Delete quotes in line 15 "PASSWORD_HASH="
-  ansible.builtin.shell: cd /opt/wireguard/ && sed -i '15s/"//g' docker-compose.yml
-
-- name: Start image
+- name: Pull and start image
   ansible.builtin.shell: cd /opt/wireguard/ && docker compose up -d
 
 - name: Copy nginx host file to proxy wireguard.
@@ -53,3 +35,28 @@
     state: link
   notify:
     - Reload nginx
+
+- name: Open 51820/udp port for wireguard
+  ansible.posix.firewalld:
+    zone: public
+    port: 51820/udp
+    state: enabled
+    permanent: yes
+    immediate: yes
+  notify:
+    - Restart firewalld
+
+- name: Get home public IP
+  community.general.ipify_facts:
+  register: public_ip
+
+- name: Your public IP address, which you can use for wireguard (host) if you have a static IP address from your ISP.
+  ansible.builtin.debug:
+    var: public_ip
+
+- name: These IPs (IPv4 & IPv6) are your server IPs. You can change the DNS server to your server in the admin panel of your wireguard installation (https://wireguard.digitalprivacy.homes/admin/config).
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  with_items:
+     - "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
+     - "{{ ansible_default_ipv6.address | default(ansible_all_ipv6_addresses[0]) }}"

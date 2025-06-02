@@ -3,3 +3,20 @@
   ansible.builtin.systemd:
     name: nginx.service
     state: reloaded
+
+# NOTE: hack for a systemd bug (restarting firewalld.service fails due to fail2ban.service)
+# https://github.com/systemd/systemd/issues/2830
+# https://bugzilla.opensuse.org/show_bug.cgi?id=1146856
+# - name: Restart firewalld
+#   service: name=firewalld state=restarted
+- name: Stop firewalld
+  ansible.builtin.systemd: 
+    name: firewalld
+    state: stopped
+  listen: Restart firewalld
+
+- name: Start firewalld
+  ansible.builtin.systemd: 
+    name: firewalld
+    state: started
+  listen: Restart firewalld
