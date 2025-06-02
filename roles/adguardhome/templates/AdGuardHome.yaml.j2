@@ -103,7 +103,9 @@ filters:
 {% filter indent(width=2, first=true) %}
 {{ item.filters | default(filters) }}{% endfilter %}
 whitelist_filters: []
-user_rules: []
+user_rules:
+{% filter indent(width=2, first=true) %}
+{{ item.user_rules | default(user_rules) }}{% endfilter %}
 dhcp:
   enabled: false
   interface_name: ""

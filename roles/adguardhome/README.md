@@ -21,6 +21,8 @@ adguardhome:
       safebrowsing_enabled: true
       # Adds DNS blocklists like https://github.com/StevenBlack/hosts, https://github.com/hagezi/dns-blocklists, ... .
       filters:
+      # You can allow certain domains that could be blocked by some filters.
+      user_rules:
       # The services (which are associated with the installation of digitalprivacy.homes) such as nextcloud.digitalprivacy.homes are ignored in the list of “Top queried domains”.
       statistics_ignored:
       # To reach every service (which are associated with the installation of digitalprivacy.homes) such as nextcloud.digitalprivacy.homes, it must be redirected to your server. Otherwise, your devices will search the Internet for these services.
