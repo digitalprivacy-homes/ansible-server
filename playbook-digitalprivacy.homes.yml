@@ -57,8 +57,7 @@
     - digitalprivacy_homes.server.portainer
     - digitalprivacy_homes.server.searxng
     - digitalprivacy_homes.server.vaultwarden
-    # wg-easy role is currently on hold and not beeing worked on until [version 15 is out](https://github.com/wg-easy/wg-easy/issues/1704).
-    # - digitalprivacy_homes.server.wg-easy
+    - digitalprivacy_homes.server.wg_easy
     - digitalprivacy_homes.server.nextcloud
 
   post_tasks:
