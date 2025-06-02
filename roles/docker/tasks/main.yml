@@ -44,3 +44,13 @@
 #     mode: '0640'
 #   notify:
 #     - Restart Docker
+
+- name: Add docker.service override.conf file to make docker.service start after AdGuardHome.service and unbound.service.
+  ansible.builtin.copy:
+    src: files/override.conf
+    dest: "/etc/systemd/system/docker.service.d/"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify:
+    - Restart Docker
