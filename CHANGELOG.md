@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.3.0 (02.06.2025)
+### roles
+#### wg_easy
+Updated wg-easy to v15.  
+Moved `docker-compose.yml` to files instead of templates (no variables necessary anymore).  
+Added `community.general.ipify_facts` to get public IP and `msg` with `ansible.builtin.debug` IPv4 AND ipV6 IPs.  
+Open `51820/udp` port in firewalld.  
+#### adguardhome
+Added `user_rules` variables which can be used to allow certain domains that could be blocked by some filters.  
+Allow `api.ipify.org` in `user_rules`, which is necessary for the `wg_easy` role to get the public IP address.  
+#### docker
+Added docker.service override.conf file to make docker.service start after AdGuardHome.service and unbound.service.  
+### playbook-digitalprivacy.homes.yml
+Enabled wg-easy role.  
+### README.md
+Deleted "(soon)" message for wg-easy.  
+Added "update" and "remove" info of the collection.  
+
 ## 0.2.0 (25.05.2025)
 ### roles
 #### digitalprivacy
