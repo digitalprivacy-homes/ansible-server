@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 (08.06.2025)
+### roles
+#### New role - desec
+Added [desec.io](https://desec.io) to use it as a dyndns option for wg-easy (wireguard).  
+It creates an account, updates the domain (dyndns) IP address and install ddclient including desec config.  
+#### wg_easy
+Added info about desec domains (dyndns) if available to use it as the host instead of the public IP.  
+### playbook-digitalprivacy.homes.yml
+Added desec role.
+
 ## 0.3.0 (02.06.2025)
 ### roles
 #### wg_easy
