@@ -1,0 +1,75 @@
+- name: Get captcha information.
+  become: false
+  ansible.builtin.uri:
+    url: https://desec.io/api/v1/captcha/
+    method: POST
+    status_code: 201
+  delegate_to: localhost
+  register: captcha
+
+- name: Show image with firefox.
+  become: false
+  ansible.builtin.command: firefox "data:image/png;base64,{{ captcha.json.challenge }}"
+  delegate_to: localhost
+
+- name: Enter the outcome of the captcha.
+  become: false
+  ansible.builtin.pause:
+    prompt: "What is the captcha?"
+  delegate_to: localhost
+  register: captcha_outcome
+
+- name: For the registration the email address is necessary.
+  become: false
+  ansible.builtin.pause:
+    prompt: "What is your email address?"
+  delegate_to: localhost
+  register: registration_email
+  when: item.email is undefined
+
+- name: For the registration a password is necessary.
+  become: false
+  ansible.builtin.pause:
+    prompt: "Which password would you like to use?"
+    echo: false
+  delegate_to: localhost
+  register: registration_password
+  when: item.password is undefined
+
+- name: For DynDNS a domain is necessary.
+  become: false
+  ansible.builtin.pause:
+    prompt: "You need to enter yourdomain.dedyn.io (.dedyn.io is desecs DynDNS service) if you don't have your own domain use that."
+  delegate_to: localhost
+  register: registration_domain
+  when: item.domain is undefined
+
+- name: Create an account on desec.io.
+  become: false
+  ansible.builtin.shell: |
+    curl -X POST https://desec.io/api/v1/auth/ \
+        --header "Content-Type: application/json" --data @- <<EOF
+        {
+          "email": "{{ item.email | default('registration_email.user_input') }}",
+          "password": "{{ item.password | default('registration_password.user_input') }}",
+          "captcha": {
+            "id": "{{ captcha.json.id }}",
+            "solution": "{{ captcha_outcome.user_input }}"
+          },
+          "domain": "{{ item.domain| default('registration_domainname.user_input') }}"
+        }
+    EOF
+  delegate_to: localhost
+  register: account
+
+- name: Print account.
+  debug:
+    var: account.stdout
+
+- name: Your domain is {{ item.domain| default('registration_domainname.user_input') }}. You can use it for wg-easy (host).
+  debug:
+    var: "{{ item.domain| default('registration_domainname.user_input') }}"
+
+- name: Reminder to disable `create_account` again.
+  debug:
+    msg: "Don't forget to set `create_account` to `false` again!"

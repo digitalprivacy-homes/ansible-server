@@ -1,0 +1,66 @@
+---
+- name: Install ddclient package.
+  ansible.builtin.package:
+    update_cache: yes
+    name: ddclient
+    state: present
+
+- name: Get token to create a token for ddclient.
+  become: false
+  ansible.builtin.shell: |
+    curl -X POST https://desec.io/api/v1/auth/login/ \
+    --header "Content-Type: application/json" --data @- <<< \
+    '{"email": "{{ item.email }}", "password": "{{ item.password }}"}' \
+    | jq -r '.token'
+  delegate_to: localhost
+  register: token
+
+- name: Check if ddclient token is already created.
+  become: false
+  ansible.builtin.shell: |
+    curl -X GET https://desec.io/api/v1/auth/tokens/ \
+    --header "Authorization: Token {{ token.stdout }}"\
+    | jq -r '.[].name' | grep ddclient
+  delegate_to: localhost
+  register: check_ddclient_token
+  ignore_errors: true
+
+- name: Show check_ddclient_token output.
+  ansible.builtin.debug:
+    var: check_ddclient_token.stdout
+
+- name: Create a proper token (not expiring etc.) for ddclient to update your public IP when it changes.
+  become: false
+  ansible.builtin.shell: |
+    curl -X POST https://desec.io/api/v1/auth/tokens/ \
+    --header "Authorization: Token {{ token.stdout }}" \
+    --header "Content-Type: application/json" --data @- <<< \
+    '{"name": "ddclient"}' \
+    | jq -r '.token'
+  delegate_to: localhost
+  register: ddclient_token
+  when: check_ddclient_token.stdout != "ddclient"
+
+- name: Show ddclient_token output.
+  ansible.builtin.debug:
+    var: ddclient_token.stdout
+  when: check_ddclient_token.stdout != "ddclient"
+
+- name: Copy config file.
+  ansible.builtin.template:
+    src: templates/ddclient.conf.j2
+    dest: /etc/ddclient.conf
+    owner: root
+    group: root
+    mode: "0600"
+  loop_control:
+    loop_var: "{{ desec | default() }}"
+  when: check_ddclient_token.stdout != "ddclient"
+
+- name: Force ddclient to update your IP.
+  ansible.builtin.shell: ddclient -force
+  register: run_ddclient
+
+- name: Show run_ddclient output.
+  ansible.builtin.debug:
+    var: run_ddclient.stdout

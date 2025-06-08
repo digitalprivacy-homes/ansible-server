@@ -1,0 +1,23 @@
+---
+- name: Get token to update your IP.
+  become: false
+  ansible.builtin.shell: |
+    curl -X POST https://desec.io/api/v1/auth/login/ \
+    --header "Content-Type: application/json" --data @- <<< \
+    '{"email": "{{ item.email }}", "password": "{{ item.password }}"}' \
+    | jq -r '.token'
+  delegate_to: localhost
+  register: token
+
+# - name: Show token
+#   ansible.builtin.debug:
+#     var: token.stdout
+
+- name: Update your IP.
+  become: false
+  ansible.builtin.shell: curl --user "{{ item.domain }}":"{{ token.stdout }}" https://update.dedyn.io/
+  register: IP
+
+- name: Just to check the request. It could be throttled if you have tried too many times. You must wait until the specified time has passed and then start again.
+  ansible.builtin.debug:
+    var: IP.stdout

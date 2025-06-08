@@ -1,0 +1,14 @@
+---
+- name: Create a desec account.
+  include_tasks: create_account.yml
+  with_items: "{{ desec | default() }}"
+  when: item.create_account | default('false') | bool
+
+- name: Update your DynDNS IP.
+  include_tasks: update_ip.yml
+  with_items: "{{ desec | default() }}"
+
+- name: Install ddclient.
+  include_tasks: ddclient.yml
+  with_items: "{{ desec | default() }}"
+  when: item.install_ddclient | default('true') | bool
