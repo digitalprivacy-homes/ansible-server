@@ -57,6 +57,7 @@
     - digitalprivacy_homes.server.portainer
     - digitalprivacy_homes.server.searxng
     - digitalprivacy_homes.server.vaultwarden
+    - digitalprivacy_homes.server.desec
     - digitalprivacy_homes.server.wg_easy
     - digitalprivacy_homes.server.nextcloud
 
