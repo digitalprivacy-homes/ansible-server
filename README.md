@@ -42,7 +42,6 @@ Remove the collection:
 `rm -rf digitalprivacy_homes/`
 
 ## New Features/Projects
-- [DynDNS](https://codeberg.org/digitalprivacy-homes/ansible-server/projects/16118)
 - [ntfy](https://codeberg.org/digitalprivacy-homes/ansible-server/projects/16121)
 - [Milestones](https://codeberg.org/digitalprivacy-homes/ansible-server/milestones)
 
