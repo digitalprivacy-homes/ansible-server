@@ -50,9 +50,23 @@
   community.general.ipify_facts:
   register: public_ip
 
-- name: Your public IP address, which you can use for wireguard (host) if you have a static IP address from your ISP.
+- name: Your public IP address, which you can use for wireguard (host) if you have a static IP address from your ISP. Or check if you have a desec dyndns domain below (in the next tasks) and use that as your host.
   ansible.builtin.debug:
-    var: public_ip
+    var: public_ip.ansible_facts.ipify_public_ip
+
+- name: Checks if you have a desec domain in ddclient.
+  ansible.builtin.shell: cat /etc/ddclient.conf | grep login | sed 's/login=//g'
+  register: ddclient
+
+- name: Shows the output of a ddclient domain "{{ ddclient.stdout }}".
+  ansible.builtin.debug:
+    var: ddclient.stdout
+
+- name: Checks also for a desec domain vars.
+  ansible.builtin.debug:
+    msg: "{{ item.domain }}"
+  with_items: "{{ desec }}"
+  when: desec is defined
 
 - name: These IPs (IPv4 & IPv6) are your server IPs. You can change the DNS server to your server in the admin panel of your wireguard installation (https://wireguard.digitalprivacy.homes/admin/config).
   ansible.builtin.debug:
