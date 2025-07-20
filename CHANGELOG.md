@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 (20.07.2025)
+### roles
+#### portainer
+Added trusted origins environments. See https://www.portainer.io/blog/origin-invalid-errors-with-portainer-2.27.7-behind-reverse-proxies
+
 ## 0.4.0 (08.06.2025)
 ### roles
 #### New role - desec
