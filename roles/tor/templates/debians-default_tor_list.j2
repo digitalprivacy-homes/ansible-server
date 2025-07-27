@@ -1,0 +1,11 @@
+# https://wiki.debian.org/SourcesList#Using_Tor_with_Apt & https://onion.debian.org/
+deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian                {{ ansible_lsb.codename }}              main    non-free-firmware
+deb-src tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian            {{ ansible_lsb.codename }}              main    non-free-firmware
+
+deb tor+http://5ajw6aqf3ep7sijnscdzw77t7xq4xjpsy335yb2wiwgouo7yfxtjlmid.onion/debian-security       {{ ansible_lsb.codename }}-security     main    non-free-firmware
+deb-src tor+http://5ajw6aqf3ep7sijnscdzw77t7xq4xjpsy335yb2wiwgouo7yfxtjlmid.onion/debian-security   {{ ansible_lsb.codename }}-security     main    non-free-firmware
+
+deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian                {{ ansible_lsb.codename }}-updates      main    non-free-firmware
+deb-src tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian            {{ ansible_lsb.codename }}-updates      main    non-free-firmware
+
+#deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian               {{ ansible_lsb.codename }}-backports    main    non-free-firmware

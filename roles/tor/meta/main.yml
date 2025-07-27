@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Dan (digitalprivacy.diy / digitalprivacy.homes)
+  description: This role installs tor, oniux and changes every connections (/etc/apt/sources.list*, certificates,...) to onion links.
+  company: "https://www.torproject.org/"
+  license: BSD-3-Clause
+  min_ansible_version: 2.15.0
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - tor
+    - oniux
+dependencies: []

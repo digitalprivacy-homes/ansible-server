@@ -37,7 +37,7 @@
         manage_dir: yes
         key: "{{ lookup('file', '~/.ssh/{{ inventory_hostname }}_ed25519.pub') }}"
 
-  # Don't move the roles around. The order is important (packages & reboot).
+  # Don't move the roles around. The order is important (packages, tor & reboot).
   roles:
     - digitalprivacy_homes.server.packages
     # dev-sec. These two roles are from https://github.com/dev-sec/ansible-collection-hardening/
@@ -45,6 +45,7 @@
     - devsec.hardening.os_hardening
     # dev-sec END
     - digitalprivacy_homes.server.unattended_upgrades
+    - digitalprivacy_homes.server.tor
     - digitalprivacy_homes.server.digitalprivacy
     - digitalprivacy_homes.server.unbound
     - digitalprivacy_homes.server.firewalld

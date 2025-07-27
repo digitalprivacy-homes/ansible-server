@@ -1,0 +1,42 @@
+---
+- name: Install apt-transport-tor package before installing tor to be able to use tor onion source.list. Also installs torsocks when oniux fails.
+  ansible.builtin.package:
+    update_cache: yes
+    name: 
+      - apt-transport-tor
+      - torsocks
+    state: present
+
+- name: Install oniux.
+  include_tasks: oniux.yml
+  with_items: "{{ tor | default() }}"
+  when: item.install_oniux | default('false') | bool
+
+- name: Download and add tor key (deb.torproject.org-keyring.gpg) into /usr/share/keyrings/
+  ansible.builtin.shell: wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/deb.torproject.org-keyring.gpg >/dev/null
+
+- name: Add tor.list repository into /etc/apt/sources.list.d/
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: tor
+  with_items:
+    - deb     [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] tor+http://apow7mjfryruh65chtdydfmqfpj5btws7nbocgtaovhvezgccyjazpqd.onion/torproject.org {{ ansible_distribution_release }} main
+    - deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] tor+http://apow7mjfryruh65chtdydfmqfpj5btws7nbocgtaovhvezgccyjazpqd.onion/torproject.org {{ ansible_distribution_release }} main
+  
+- name: Install tor.
+  ansible.builtin.package:
+    update_cache: yes
+    name: 
+      - tor
+      - deb.torproject.org-keyring
+    state: present
+
+- name: Change debain source list (/etc/apt/sources.list) to tor
+  ansible.builtin.template:
+    src: templates/debians-default_tor_list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
