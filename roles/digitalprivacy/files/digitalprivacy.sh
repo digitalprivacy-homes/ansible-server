@@ -70,7 +70,7 @@ $IP"
             echo "Script-autostart disabled.")"
             ;;
         "8)")
-            result="$(sudo torsocks apt-get full-upgrade -y)"
+            result="$(sudo apt-get full-upgrade -y)"
             ;;
         "0)")
             # Exit the loop

@@ -1,11 +1,4 @@
 ---
-- name: Install tor/socks. Necessary to download the certificates via tor.
-  ansible.builtin.package:
-    update_cache: yes
-    name: 
-      - "torsocks"
-    state: present
-
 - name: Copy whiptail script digitalprivacy.sh to /usr/local/bin/
   ansible.builtin.copy:
     src: files/digitalprivacy.sh
