@@ -1,6 +1,6 @@
 namespace: digitalprivacy_homes
 name: server
-version: 0.4.1
+version: 0.5.0
 readme: README.md
 authors:
   - DIGITAL PRIVACY .HOMES <hello@chat.digitalprivacy.homes>
@@ -28,7 +28,7 @@ tags:
   - desec
   - dyndns
   - wg_easy
-  - wireguard
+  - tor
 dependencies:
   ansible.posix: '>=1.0.0'
   community.crypto: '>=1.0.0'

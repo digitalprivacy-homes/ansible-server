@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 (27.07.2025)
+### roles
+#### tor
+Added new tor role.  
+Which installs tor via tor repository (https://support.torproject.org/apt/tor-deb-repo/) and installs oniux (https://blog.torproject.org/introducing-oniux-tor-isolation-using-linux-namespaces/) if set to true (Default is false. oniux is also still beta.).
+#### digitalprivacy
+Changed certificate links to tor links.  
+Deleted torsocks installation and apt upgrade via torsocks (tor source.list in place now).
+### playbook-digitalprivacy.homes.yml
+Added tor role.
+
 ## 0.4.1 (20.07.2025)
 ### roles
 #### portainer
