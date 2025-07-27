@@ -13,12 +13,12 @@ if [ ! -f /etc/nginx/ssl/digitalprivacy.homes.key ]; then
     sudo touch /etc/nginx/ssl/digitalprivacy.homes.cer
     # Downloads (new) certificates if available as with "new" ending.
     # This is necessary to also keep the new files and instead of overwriting the current files.
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.new" -z "/etc/nginx/ssl/digitalprivacy.homes.key.new" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.key.sig" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key.sig" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key.CHECKSUM" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.new" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.new" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer.sig" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer.CHECKSUM" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.new" -z "/etc/nginx/ssl/digitalprivacy.homes.key.new" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.key.sig" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key.sig" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key.CHECKSUM" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.new" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.new" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.sig" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.CHECKSUM" >/dev/null 2>&1
     sudo sed -i 's/digitalprivacy.homes.cer/digitalprivacy.homes.cer.new/' /etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM
     sudo sed -i 's/digitalprivacy.homes.key/digitalprivacy.homes.key.new/' /etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM
 # If the old and new key are identical, there is no reason to continue. No new certificates have been created yet.
@@ -27,19 +27,19 @@ elif [ "$OLDKEY" = "$NEWKEY" ]; then
     exit 0
 else
     echo "Checking for new certificates."
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.new" -z "/etc/nginx/ssl/digitalprivacy.homes.key.new" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.key.sig" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key.sig" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.key.CHECKSUM" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.new" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.new" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer.sig" >/dev/null 2>&1
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" "https://certificates.digitalprivacy.homes/digitalprivacy.homes.cer.CHECKSUM" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.new" -z "/etc/nginx/ssl/digitalprivacy.homes.key.new" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.key.sig" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key.sig" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.key.CHECKSUM" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.new" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.new" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.sig" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.CHECKSUM" >/dev/null 2>&1
 fi
 
 # Make sure that the public key is imported. 
 # *Needs to be further improved. It works, but there is too much output.
 PUBKEY=$(sudo gpg --list-keys | grep "certificates@chat.digitalprivacy.homes" | awk '{print $4}' | cut -b 2-39)
 if [[ "$PUBKEY" != certificates@chat.digitalprivacy.homes ]]; then
-    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/certificates_0xDA166C9A2E2841D7_public.asc" "https://certificates.digitalprivacy.homes/certificates_0xDA166C9A2E2841D7_public.asc" >/dev/null 2>&1
+    sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/certificates_0xDA166C9A2E2841D7_public.asc" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/certificates_0xDA166C9A2E2841D7_public.asc" >/dev/null 2>&1
     sudo gpg --import /etc/nginx/ssl/certificates_0xDA166C9A2E2841D7_public.asc
     sudo echo -e "5\ny\n" | gpg --command-fd 0 --expert --edit-key certificates trust
 fi
