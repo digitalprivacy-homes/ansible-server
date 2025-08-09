@@ -1,15 +1,16 @@
 # unattended_upgrades
-This role configurate unattended_upgrades, which is used to automatically update your system. It installs the unattended-upgrades, apt-listchanges and needrestart packages.
+This role configurate unattended_upgrades, which is used to automatically update your system. It installs the `unattended-upgrades`, `apt-listchanges` and `needrestart` packages.  
+Security updates are automatically enabled by default and cannot be changed using variables.
 
 For more information visit:  
-[https://www.portainer.io/](https://www.portainer.io/)
+[https://wiki.debian.org/UnattendedUpgrades](https://wiki.debian.org/UnattendedUpgrades)
 
 # Role variables
-Delete // (to enable) or add // (to disable) before the actual line starts.
+Delete `//` (to enable) or add `//` (to disable) before the actual line starts.
 ```yaml
 unattended_upgrades:
-    - # Automatically upgrade packages (on by default)
-      unattended_updates: '        "origin=Debian,codename=${distro_codename}-updates";'
+    - # Automatically upgrade packages (off by default)
+      unattended_updates: '      "origin=Debian,codename=${distro_codename}-updates";'
       # More info https://www.debian.org/releases/proposed-updates
       unattended_proposed: '//      "origin=Debian,codename=${distro_codename}-proposed-updates";'
       # Minimalsteps splits the upgrade into the smallest possible chunks so that they can be interrupted with SIGTERM. 
