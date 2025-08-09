@@ -5,7 +5,7 @@ Run ansible for a simple setup of your server that includes digital privacy serv
 This collection provides solutions for digital privacy that are only intended for home use.
 
 - Linux operating system:
-  - Debian 12
+  - Debian 13
   
 - Services:
   - adguardhome
@@ -20,6 +20,7 @@ This collection provides solutions for digital privacy that are only intended fo
   - unbound
   - vaultwarden
   - wg-easy (wireguard)
+  - tor
 
 ## Using this collection
 Please refer to the examples in the readmes of the role.
