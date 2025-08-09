@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.6.0 (09.08.2025)
+### Debian 13 (trixie)
+The role(s) are now for Debian 13 (trixie).  
+### roles
+In all roles (where it had not yet been changed), the `boolean` value of `yes` or `no` was changed to `true` or `false`.  
+Also in every `meta/main.yml` file changed versions `bookworm` to `trixie`.
+#### reboot
+The `reboot` role has been moved further up because the variable `ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])` does not work on the first run. But the variable is needed for `digitalprivacy` and `adguardhome` roles.
+#### tor
+Updated `oniux` version to `v0.6.0`.  
+Updated source lists to the new `debian.sources` format (https://wiki.debian.org/SourcesList#debian.sources_format).  
+#### packages
+Added `gnupg` package.
+#### desec
+`ddclient` role now will fail if no token has been received. So before it copies the config file and runs `ddclient -force`. The config file needs either the `ddclient` `token: $variable` (if it is already created, see the role `README.md`) or the new created one via task `ddclient_token`.  
+#### docker
+Updated source lists to the new `debian.sources` format (https://wiki.debian.org/SourcesList#debian.sources_format).  
+#### unattended_upgrades
+Wrong information link in `README.md`.
+#### digitalprivacy
+Added `ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])` instead of just `ansible_default_ipv4.address` variable to `digitalprivacy-update_ip` script to ensure that the correct IP address is used.  
+Added a condition to check if the `digitalprivacy` script is present in `~/.bashrc` and only adds it if it is not.  
+Added `Reboot your system` and changed from `full-upgrade` to `upgrade` in the `digitalprivacy` script.
+#### adguardhome
+Added `ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])` variable to the `rewrites: answer` to ensure that the correct IP address is used.
+
 ## 0.5.0 (27.07.2025)
 ### roles
 #### tor
