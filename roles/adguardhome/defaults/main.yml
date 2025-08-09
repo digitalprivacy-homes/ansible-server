@@ -121,16 +121,16 @@ statistics_ignored: |
   - wireguard.digitalprivacy.homes
 rewrites: |
   - domain: adguardhome.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: cockpit.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: nextcloud.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: portainer.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: searxng.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: vaultwarden.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
   - domain: wireguard.digitalprivacy.homes
-    answer: {{ ansible_default_ipv4.address }}
+    answer: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
