@@ -8,7 +8,9 @@
     state: present
 
 - name: Disable resolvconf+unbound hook. Otherwise unbound-resolvconf.service failed after reboot.
-  ansible.builtin.shell: chmod -x /etc/resolvconf/update.d/unbound
+  ansible.builtin.file:
+    path: /etc/resolvconf/update.d/unbound
+    mode: '0644'
 
 - name: Copy config file
   ansible.builtin.copy:
