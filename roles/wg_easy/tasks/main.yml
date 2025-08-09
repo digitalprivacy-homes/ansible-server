@@ -41,8 +41,8 @@
     zone: public
     port: 51820/udp
     state: enabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
   notify:
     - Restart firewalld
 

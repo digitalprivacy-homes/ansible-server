@@ -1,7 +1,7 @@
 ---
 - name: Install msmtp packages
   ansible.builtin.package:
-    update_cache: yes
+    update_cache: true
     name:
       - msmtp
       - msmtp-mta

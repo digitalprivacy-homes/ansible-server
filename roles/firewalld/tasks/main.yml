@@ -1,7 +1,7 @@
 ---
 - name: Install firewalld and ipset
   ansible.builtin.package:
-    update_cache: yes
+    update_cache: true
     name: 
       - "firewalld"
       - "ipset"
@@ -11,8 +11,8 @@
   ansible.posix.firewalld:
     zone: public
     interface: "{{ item.public_interface | default(public_interface) }}"
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
     state: enabled
   with_items: "{{ firewalld | default() }}"
 
@@ -21,23 +21,23 @@
     zone: public
     service: dhcpv6-client
     state: disabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
 
 - name: Disable ssh service ...
   ansible.posix.firewalld:
     zone: public
     service: ssh
     state: disabled
-    permanent: yes
+    permanent: true
 
 - name: ... instead, allow the ssh port after you have deactivated the ssh service. This is easier than changing the ssh port in the ssh service itself, which the module does not support.
   ansible.posix.firewalld:
     zone: public
     port: "{{ item.ssh_port | default(ssh_port) }}/tcp"
     state: enabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
   with_items: "{{ firewalld | default() }}"
   when: item.allow_ssh_ports | default('true') | bool
 
@@ -46,8 +46,8 @@
     zone: public
     service: https
     state: enabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
   when: item.allow_https_ports | default('true') | bool
 
 - name: Permit traffic in public zone for http service
@@ -55,8 +55,8 @@
     zone: public
     service: http
     state: enabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true
   when: item.allow_https_ports | default('true') | bool
 
 - name: Permit traffic in public zone for dns service
@@ -64,5 +64,5 @@
     zone: public
     service: dns
     state: enabled
-    permanent: yes
-    immediate: yes
+    permanent: true
+    immediate: true

@@ -3,8 +3,8 @@
   ansible.builtin.git:
     repo: https://github.com/searxng/searxng-docker.git
     dest: /opt/searxng
-    accept_hostkey: yes
-    force: yes
+    accept_hostkey: true
+    force: true
 
 - name: Copy .env file
   ansible.builtin.copy:

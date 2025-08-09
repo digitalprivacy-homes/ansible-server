@@ -1,7 +1,7 @@
 ---
 - name: Install usefull packages
   ansible.builtin.package:
-    update_cache: yes
+    update_cache: true
     name: "{{ item }}"
     state: present
   with_items:

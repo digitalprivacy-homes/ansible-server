@@ -1,7 +1,7 @@
 ---
 - name: Install nginx, nginx-mod-brotli
   ansible.builtin.package:
-    update_cache: yes
+    update_cache: true
     name: 
       - "nginx"
       - "libnginx-mod-http-brotli-filter"
@@ -80,7 +80,7 @@
 - name: Enable nginx.service, start and ensure it is not masked
   ansible.builtin.systemd:
     name: nginx.service
-    enabled: yes
+    enabled: true
     state: started
     masked: no
 
