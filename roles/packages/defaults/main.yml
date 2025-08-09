@@ -9,3 +9,4 @@ packages:
   - "man"
   - "apparmor-utils"
   - "htop"
+  - "gnupg"

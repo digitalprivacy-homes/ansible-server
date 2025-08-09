@@ -8,7 +8,7 @@ Check `defaults\main.yml` for the list.
 packages: 
   - "curl"
   - "wget"
-  - "bash-completion"
   - "net-tools"
   - "git"
+  - "..."
 ```
