@@ -65,6 +65,14 @@
   with_items:
     - "{{ digitalprivacy | default() }}"
 
-- name: Add autostart for digitalprivacy whiptail script to ~/.bashrc 
-  ansible.builtin.shell: echo "/usr/local/bin/digitalprivacy" >> ~/.bashrc
+- name: Check whether the autostart for the Whiptail script `digitalprivacy` is present in `~/.bashrc` or not.
+  ansible.builtin.shell: grep -c "^/usr/local/bin/digitalprivacy" ~/.bashrc || true
   become_user: "{{ ansible_user }}"
+  register: digitalprivacy_script
+
+- name: Add `digitalprivacy` in `~/.bashrc`.
+  ansible.builtin.lineinfile:
+    dest: ~/.bashrc
+    line: /usr/local/bin/digitalprivacy
+  become_user: "{{ ansible_user }}"
+  when: digitalprivacy_script.stdout == "0"

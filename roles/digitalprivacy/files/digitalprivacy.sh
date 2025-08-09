@@ -24,7 +24,8 @@ while true; do
             "5)" "Update certificates" \
             "6)" "Update IPs for your services" \
             "7)" "Disable script-autostart at login via main user" \
-            "8)" "full-upgrade your system"  \
+            "8)" "Upgrade your system"  \
+            "9)" "Reboot your system"  \
             "0)" "Exit" 3>&2 2>&1 1>&3
     )
 
@@ -70,7 +71,17 @@ $IP"
             echo "Script-autostart disabled.")"
             ;;
         "8)")
-            result="$(sudo apt-get full-upgrade -y)"
+            result="$(sudo apt-get upgrade -y)"
+            ;;
+        "9)")
+            result="$(read -p "Are you sure you want to reboot? <y/N> " prompt
+                    if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+                    then
+                        sudo reboot now
+                    else
+                        exit 0
+                    fi
+                    )"
             ;;
         "0)")
             # Exit the loop
