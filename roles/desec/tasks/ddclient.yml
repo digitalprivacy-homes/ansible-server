@@ -1,7 +1,7 @@
 ---
 - name: Install ddclient package.
   ansible.builtin.package:
-    update_cache: yes
+    update_cache: true
     name: ddclient
     state: present
 
@@ -55,7 +55,6 @@
     mode: "0600"
   loop_control:
     loop_var: "{{ desec | default() }}"
-  when: check_ddclient_token.stdout != "ddclient"
 
 - name: Force ddclient to update your IP.
   ansible.builtin.shell: ddclient -force

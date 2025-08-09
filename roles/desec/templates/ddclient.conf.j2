@@ -6,5 +6,9 @@ use=cmd, cmd='curl https://checkipv4.dedyn.io/'
 ssl=yes
 server=update.dedyn.io
 login={{ item.domain }}
+{% if item.token is defined %}
+password='{{ item.token }}'
+{% else %}
 password='{{ ddclient_token.stdout }}'
+{% endif %}
 {{ item.domain }}
