@@ -1,4 +1,4 @@
 ---
-- name: Server restart, e.g. after a specific installation where a restart is required
+- name: Restart the server, e.g. after a specific installation that requires a restart. Don't forget to enter your password if LUKS is enabled on your server.
   ansible.builtin.reboot:
     # reboot_timeout: 3600
