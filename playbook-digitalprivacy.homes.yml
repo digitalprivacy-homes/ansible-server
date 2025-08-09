@@ -34,7 +34,7 @@
       ansible.posix.authorized_key:
         user: "{{ ansible_user }}"
         state: present
-        manage_dir: yes
+        manage_dir: true
         key: "{{ lookup('file', '~/.ssh/{{ inventory_hostname }}_ed25519.pub') }}"
 
   # Don't move the roles around. The order is important (packages, tor & reboot).
@@ -44,6 +44,7 @@
     - devsec.hardening.ssh_hardening
     - devsec.hardening.os_hardening
     # dev-sec END
+    - digitalprivacy_homes.server.reboot
     - digitalprivacy_homes.server.unattended_upgrades
     - digitalprivacy_homes.server.tor
     - digitalprivacy_homes.server.digitalprivacy
@@ -52,7 +53,6 @@
     - digitalprivacy_homes.server.logrotate
     - digitalprivacy_homes.server.nginx
     - digitalprivacy_homes.server.adguardhome
-    - digitalprivacy_homes.server.reboot
     - digitalprivacy_homes.server.cockpit
     - digitalprivacy_homes.server.docker
     - digitalprivacy_homes.server.portainer
@@ -65,4 +65,4 @@
   post_tasks:
     - name: You'll need to follow the setup for Nextcloud manually.
       ansible.builtin.debug:
-        msg: "Go to https://{{ ansible_default_ipv4.address }}:8080 and finish the setup (accept the risk in your browser). Use 'nextcloud.digitalprivacy.homes' as your domain."
+        msg: "Go to https://{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}:8080 and finish the setup (accept the risk in your browser). Use 'nextcloud.digitalprivacy.homes' as your domain."
