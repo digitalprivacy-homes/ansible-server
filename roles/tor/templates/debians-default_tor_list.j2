@@ -1,11 +1,29 @@
-# https://wiki.debian.org/SourcesList#Using_Tor_with_Apt & https://onion.debian.org/
-deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian                {{ ansible_lsb.codename }}              main    non-free-firmware
-deb-src tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian            {{ ansible_lsb.codename }}              main    non-free-firmware
+Types: deb deb-src
+URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
+Suites: {{ ansible_distribution_release }} {{ ansible_distribution_release }}-updates
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-deb tor+http://5ajw6aqf3ep7sijnscdzw77t7xq4xjpsy335yb2wiwgouo7yfxtjlmid.onion/debian-security       {{ ansible_lsb.codename }}-security     main    non-free-firmware
-deb-src tor+http://5ajw6aqf3ep7sijnscdzw77t7xq4xjpsy335yb2wiwgouo7yfxtjlmid.onion/debian-security   {{ ansible_lsb.codename }}-security     main    non-free-firmware
+Types: deb deb-src
+URIs: tor+http://5ajw6aqf3ep7sijnscdzw77t7xq4xjpsy335yb2wiwgouo7yfxtjlmid.onion/debian-security
+Suites: {{ ansible_distribution_release }}-security
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian                {{ ansible_lsb.codename }}-updates      main    non-free-firmware
-deb-src tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian            {{ ansible_lsb.codename }}-updates      main    non-free-firmware
-
-#deb tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian               {{ ansible_lsb.codename }}-backports    main    non-free-firmware
+{% if item.backports is defined and item.backports == true %}
+Types: deb
+URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
+Suites: {{ ansible_distribution_release }}-backports
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+{% else %}
+#Types: deb
+#URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
+#Suites: {{ ansible_distribution_release }}-backports
+#Components: main non-free-firmware
+#Enabled: yes
+#Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+{% endif %}
