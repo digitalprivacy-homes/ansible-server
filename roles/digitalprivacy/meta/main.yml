@@ -8,7 +8,7 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - bookworm
+        - trixie
   galaxy_tags:
     - script
     - whiptail
