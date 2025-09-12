@@ -35,8 +35,7 @@ http {
         log_not_found off;
         types_hash_max_size 4096;
         client_max_body_size 16M;
-        # Not available by default yet, on Debian Bookworm.
-        #http2  on;
+        http2 on;
 
         # MIME
         include mime.types;
