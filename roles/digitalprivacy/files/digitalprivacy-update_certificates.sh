@@ -7,7 +7,8 @@
 # Check whether digitalprivacy.homes certificates are available or not. Download and update them if necessary.
 OLDKEY=$(sudo cat /etc/nginx/ssl/digitalprivacy.homes.key 2>&1)
 NEWKEY=$(sudo cat /etc/nginx/ssl/digitalprivacy.homes.key.new 2>&1)
-if [ ! -f /etc/nginx/ssl/digitalprivacy.homes.key ]; then
+CHECKFILE=$(sudo ls -1 /etc/nginx/ssl/digitalprivacy.homes.key 2>&1)
+if [ "$CHECKFILE" != "/etc/nginx/ssl/digitalprivacy.homes.key"  ]; then
     echo "No certificates found at all. Downloading all necessary files."
     sudo touch /etc/nginx/ssl/digitalprivacy.homes.key
     sudo touch /etc/nginx/ssl/digitalprivacy.homes.cer
@@ -19,8 +20,8 @@ if [ ! -f /etc/nginx/ssl/digitalprivacy.homes.key ]; then
     sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.new" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.new" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer" >/dev/null 2>&1
     sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.sig" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.sig" >/dev/null 2>&1
     sudo curl --socks5-hostname 127.0.0.1:9050 -o "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" -z "/etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" "http://sagvspuqr2wixlfv6mr4ezcx7wwvxgi6vxskzmjc6epcnxfwtei33vad.onion/digitalprivacy.homes.cer.CHECKSUM" >/dev/null 2>&1
-    sudo sed -i 's/digitalprivacy.homes.cer/digitalprivacy.homes.cer.new/' /etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM
-    sudo sed -i 's/digitalprivacy.homes.key/digitalprivacy.homes.key.new/' /etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM
+    sudo sed -i 's/\(digitalprivacy.homes.cer\).*/digitalprivacy.homes.cer.new/' /etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM
+    sudo sed -i 's/\(digitalprivacy.homes.key\).*/digitalprivacy.homes.key.new/' /etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM
 # If the old and new key are identical, there is no reason to continue. No new certificates have been created yet.
 elif [ "$OLDKEY" = "$NEWKEY" ]; then
     echo "No new certificates available."
@@ -46,8 +47,8 @@ fi
 
 # Checks the checksum and signature of the new files, and if they match, the current key and cer files are renamed to *.old files (as a backup).
 # The *.new files are applied (renamed to the *.key and *.cer files) and nginx is reloaded to use the new certificate(s).
-CHECKSUMCER=$(sudo sha512sum -c /etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM | awk '{print $2}')
-CHECKSUMKEY=$(sudo sha512sum -c /etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM | awk '{print $2}')
+CHECKSUMCER=$(sudo sh -c "cd /etc/nginx/ssl && sha512sum -c /etc/nginx/ssl/digitalprivacy.homes.cer.CHECKSUM" | awk '{print $2}')
+CHECKSUMKEY=$(sudo sh -c "cd /etc/nginx/ssl && sha512sum -c /etc/nginx/ssl/digitalprivacy.homes.key.CHECKSUM" | awk '{print $2}')
 SIGNCER=$(sudo gpg --verify /etc/nginx/ssl/digitalprivacy.homes.cer.sig /etc/nginx/ssl/digitalprivacy.homes.cer.new 2>&1 | grep Good | awk '{print $2}')
 SIGNKEY=$(sudo gpg --verify /etc/nginx/ssl/digitalprivacy.homes.key.sig /etc/nginx/ssl/digitalprivacy.homes.key.new 2>&1 | grep Good | awk '{print $2}')
 if [[ "$CHECKSUMCER" && "$CHECKSUMKEY" = "OK" ]] && [[ "$SIGNCER" && "$SIGNKEY" = "Good" ]]; then
