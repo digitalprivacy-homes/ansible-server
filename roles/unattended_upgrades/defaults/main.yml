@@ -1,5 +1,5 @@
 ---
-unattended_updates: '      "origin=Debian,codename=${distro_codename}-updates";'
+unattended_updates: '        "origin=Debian,codename=${distro_codename}-updates";'
 unattended_proposed: '//      "origin=Debian,codename=${distro_codename}-proposed-updates";'
 unattended_minimalsteps: 'Unattended-Upgrade::MinimalSteps "true";'
 # Don't forget to uncomment // for unattended_mail and unattended_mailreport

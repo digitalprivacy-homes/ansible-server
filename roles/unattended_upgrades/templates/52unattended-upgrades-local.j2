@@ -1,4 +1,31 @@
+// Unattended-Upgrade::Origins-Pattern controls which packages are
+// upgraded.
+//
+// Lines below have the format "keyword=value,...".  A
+// package will be upgraded only if the values in its metadata match
+// all the supplied keywords in a line.  (In other words, omitted
+// keywords are wild cards.) The keywords originate from the Release
+// file, but several aliases are accepted.  The accepted keywords are:
+//   a,archive,suite (eg, "stable")
+//   c,component     (eg, "main", "contrib", "non-free")
+//   l,label         (eg, "Debian", "Debian-Security")
+//   o,origin        (eg, "Debian", "Unofficial Multimedia Packages")
+//   n,codename      (eg, "jessie", "jessie-updates")
+//     site          (eg, "http.debian.net")
+// The available values on the system are printed by the command
+// "apt-cache policy", and can be debugged by running
+// "unattended-upgrades -d" and looking at the log file.
+//
+// Within lines unattended-upgrades allows 2 macros whose values are
+// derived from /etc/debian_version:
+//   ${distro_id}            Installed origin.
+//   ${distro_codename}      Installed codename (eg, "buster")
 Unattended-Upgrade::Origins-Pattern {
+        // Codename based matching:
+        // This will follow the migration of a release through different
+        // archives (e.g. from testing to stable and later oldstable).
+        // Software will be the latest available for the named release,
+        // but the Debian release itself will not be automatically upgraded.
 {{ item.unattended_updates | default(unattended_updates) }}
 {{ item.unattended_proposed | default(unattended_proposed) }}
         "origin=Debian,codename=${distro_codename},label=Debian";
@@ -45,7 +72,7 @@ Unattended-Upgrade::Package-Blacklist {
 
 // Split the upgrade into the smallest possible chunks so that
 // they can be interrupted with SIGTERM. This makes the upgrade
-// a bit slower but it has the benefit that shutdown while a upgrade
+// a bit slower but it has the benefit that shutdown while an upgrade
 // is running is possible (with a small delay)
 {{ item.unattended_minimalsteps | default(unattended_minimalsteps) }}
 
