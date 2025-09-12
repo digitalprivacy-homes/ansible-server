@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.6.1 (12.09.2025)
+### roles
+#### tor
+Added `{{ ansible_distribution_release }}-updates` repository and simplified `backports` code (just `Enabled: yes or no`) in `debian.source`.  
+#### searxng
+Changed `env` file because uWSGI got replaced with Granian (see https://github.com/searxng/searxng-docker/commit/8b75609524a9b6f93f35d9b0a13665da9deeb6d7)  
+Deleted `static_use_hash` in `settings.yml` (see https://github.com/searxng/searxng-docker/commit/8de6ea65ab34ad2d3833cbf13b826c8162fc3269)  
+Deleted `cap_drop` for the first run (see https://github.com/searxng/searxng-docker/commit/8fe0b98cedfcfbde3761e0850f1a0e7b94636c6f)  
+Updated `docker-compose.yaml` file (see https://github.com/searxng/searxng-docker/commits/master/docker-compose.yaml)  
+#### digitalprivacy
+Changed `digitalprivacy-update_certificates.sh` to be able to run the whole script as a sudo user as well.  
+Changed sed CHECKSUM command (line 23 & 24) to change only the pattern.
+#### docker
+Updated README.md.  
+#### nginx
+Changed download certificates-task (ansible.builtin.get_url) with `digitalprivacy-update_certificates.sh` via ansible.builtin.shell.  
+Enabled `http2 on;` in `nginx.conf.j2` since it works on Debian 13.  
+#### Cockpit
+Deleted `include ...` bots/firewall block in `cockpit.digitalprivacy.homes`.  
+#### unattended_upgrades
+Added `52unattended-upgrades-local.j2` info blocks from original file.  
+Deleted `.db` in `listchanges.conf.j2` line `save_seen=/var/lib/apt/listchanges`.  
+### playbook-digitalprivacy.homes.yml
+Moved the `reboot` role behind tor role because it seems to having some issues 
+Moved the `reboot` role before the `AdGuardHome` role because there were issues with setting up the right IPs in `AdGuardHome.yaml`.  
+Moved hardening roles (os & ssh) to the last position.  
+Enabled `pre_tasks:` - `- name: Add server to the ssh configuration` which comes handy for first time installations via script `install_ansible_on_workstation.sh`. The lines for 131 to 141 (`# Creates a host under .ssh/config`) in the script itself shouldn't be necessary anymore but it needs more testing.  
+
 ## 0.6.0 (09.08.2025)
 ### Debian 13 (trixie)
 The role(s) are now for Debian 13 (trixie).  
