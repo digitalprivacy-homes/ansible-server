@@ -17,10 +17,6 @@ server {
         ssl_certificate_key /etc/nginx/ssl/digitalprivacy.homes.key;
         include /etc/nginx/ssl/ssl-options.conf;
 
-#        include /etc/nginx/bots.d/ddos.conf;
-#        include /etc/nginx/bots.d/blockbots.conf;
-#        include /etc/nginx/conf.d/7G-Firewall/7g.conf;
-
         access_log /var/log/nginx/cockpit.digitalprivacy.homes_access.log;
         error_log /var/log/nginx/cockpit.digitalprivacy.homes-error.log;
 
