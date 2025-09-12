@@ -1,6 +1,6 @@
 Types: deb deb-src
 URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
-Suites: {{ ansible_distribution_release }} {{ ansible_distribution_release }}-updates
+Suites: {{ ansible_distribution_release }}
 Components: main non-free-firmware
 Enabled: yes
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
@@ -12,18 +12,20 @@ Components: main non-free-firmware
 Enabled: yes
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-{% if item.backports is defined and item.backports == true %}
+Types: deb deb-src
+URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
+Suites: {{ ansible_distribution_release }}-updates
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
 Types: deb
 URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
 Suites: {{ ansible_distribution_release }}-backports
 Components: main non-free-firmware
+{% if item.backports is defined and item.backports == true %}
 Enabled: yes
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 {% else %}
-#Types: deb
-#URIs: tor+http://2s4yqjx5ul6okpp3f2gaunr2syex5jgbfpfvhxxbbjwnrsvbk5v3qbid.onion/debian
-#Suites: {{ ansible_distribution_release }}-backports
-#Components: main non-free-firmware
-#Enabled: yes
-#Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Enabled: no
 {% endif %}
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg

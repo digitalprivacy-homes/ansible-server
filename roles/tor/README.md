@@ -11,5 +11,5 @@ tor:
     # Change `install_oniux` to `true` if you want to install oniux. Default is `false`.
     install_oniux: false
     # Enable backports repo (default is false).
-    backports: true
+    backports: false
 ```
