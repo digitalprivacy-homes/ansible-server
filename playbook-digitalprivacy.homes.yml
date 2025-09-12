@@ -18,18 +18,18 @@
         path: "~/.ssh/{{ inventory_hostname }}_ed25519"
         type: "ed25519"
       delegate_to: localhost
-    # (!?) Can't be used: gather facts needs to be possible to use variables. 
-    # Maybe another idea comes up to implement this here instead of the script `install_ansible_on_workstation.sh`
-    # - name: Add server to the ssh configuration
-    #   become: false
-    #   community.general.ssh_config:
-    #     user: "{{ ansible_user }}"
-    #     host: "{{ inventory_hostname }}"
-    #     hostname: "{{ ansible_default_ipv4.address }}"
-    #     identity_file: "~/.ssh/{{ inventory_hostname }}_ed25519"
-    #     port: '{{ ansible_port }}'
-    #     state: present
-    #   delegate_to: localhost
+    - name: Add server to the ssh configuration
+      become: false
+      community.general.ssh_config:
+        user: "{{ lookup('env','USER') }}"
+        host: "{{ inventory_hostname }}"
+        hostname: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+        remote_user: "{{ ansible_user }}"
+        port: "{{ ansible_port }}"
+        identities_only: true
+        identity_file: "~/.ssh/{{ inventory_hostname }}_ed25519"
+        state: present
+      delegate_to: localhost
     - name: Copy pub key to new server for ansible to work properly especialy after ssh_hardening.
       ansible.posix.authorized_key:
         user: "{{ ansible_user }}"
@@ -40,13 +40,9 @@
   # Don't move the roles around. The order is important (packages, tor & reboot).
   roles:
     - digitalprivacy_homes.server.packages
-    # dev-sec. These two roles are from https://github.com/dev-sec/ansible-collection-hardening/
-    - devsec.hardening.ssh_hardening
-    - devsec.hardening.os_hardening
-    # dev-sec END
-    - digitalprivacy_homes.server.reboot
     - digitalprivacy_homes.server.unattended_upgrades
     - digitalprivacy_homes.server.tor
+    - digitalprivacy_homes.server.reboot
     - digitalprivacy_homes.server.digitalprivacy
     - digitalprivacy_homes.server.unbound
     - digitalprivacy_homes.server.firewalld
@@ -61,6 +57,10 @@
     - digitalprivacy_homes.server.desec
     - digitalprivacy_homes.server.wg_easy
     - digitalprivacy_homes.server.nextcloud
+    # dev-sec. These two roles are from https://github.com/dev-sec/ansible-collection-hardening/
+    - devsec.hardening.ssh_hardening
+    - devsec.hardening.os_hardening
+    # dev-sec END
 
   post_tasks:
     - name: You'll need to follow the setup for Nextcloud manually.
