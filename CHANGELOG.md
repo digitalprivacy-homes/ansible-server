@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.2 (23.10.2025)
+### roles
+#### tor  
+Added `make` package for compiling `oniux`.  
+Changed `oniux` version to latest repo link only (comment out the version if a version preference is preferred. Maybe change it to an variable one day instead).  
+Added `cargo PATH` to `bashrc`.  
+Added more info to the `README.md` file for backports and oniux.
+#### nextcloud
+Updated `docker-compose.yml.j2` file - see https://github.com/nextcloud/all-in-one/blob/main/compose.yaml.
+### playbook-digitalprivacy.homes.yml
+The `reboot` role was also added after the `adguardhome` role. It seems that some DNS problems may occur during the first run, such as the following `cockpit` role: apt cannot find the cockpit package via the TOR source list.
+
 ## 0.6.1 (12.09.2025)
 ### roles
 #### tor
