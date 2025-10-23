@@ -7,11 +7,6 @@
       - torsocks
       - python3-debian
     state: present
-
-- name: Install oniux.
-  include_tasks: oniux.yml
-  with_items: "{{ tor | default() }}"
-  when: item.install_oniux | default('false') | bool
   
 - name: Add tor apt repository key.
   ansible.builtin.get_url:
@@ -44,10 +39,14 @@
     owner: root
     group: root
     mode: '0644'
-  loop_control:
-    loop_var: "{{ tor | default() }}"
+  with_items: "{{ tor | default() }}"
 
 - name: Moves the debians /etc/apt/sources.list file to /etc/apt/sources.list.backup
   command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
   args:
     creates: /etc/apt/sources.list.backup
+
+- name: Install oniux.
+  include_tasks: oniux.yml
+  with_items: "{{ tor | default() }}"
+  when: item.install_oniux | default('false') | bool
