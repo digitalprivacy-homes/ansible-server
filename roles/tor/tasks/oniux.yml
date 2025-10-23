@@ -1,11 +1,29 @@
 ---
-- name: Install cargo package.
+- name: Install make package.
+  ansible.builtin.package:
+    update_cache: true
+    name: make
+    state: present
+
+- name: Install cargo package from backports.
   ansible.builtin.package:
     update_cache: true
     name: cargo
+    default_release: "{{ ansible_distribution_release }}-backports"
     state: present
 
+- name: Add cargo PATH to bashrc
+  ansible.builtin.blockinfile:
+    path: "/root/.bashrc"
+    state: present
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - cargo PATH"
+    block: |
+      export PATH=$PATH:~/.cargo/bin/
+    backup: true
+
 - name: Install oniux.
-  ansible.builtin.shell: cargo install --git https://gitlab.torproject.org/tpo/core/oniux --tag v0.6.0 oniux
+  ansible.builtin.shell: cargo install --git https://gitlab.torproject.org/tpo/core/oniux
+  # Use the following parameter instead if you need a specific version - https://gitlab.torproject.org/tpo/core/oniux/-/tags.
+  ## ansible.builtin.shell: cargo install --git https://gitlab.torproject.org/tpo/core/oniux --tag v0.6.1 oniux
   # If the build fails ignore it and keep going.
   ignore_errors: true
