@@ -49,6 +49,7 @@
     - digitalprivacy_homes.server.logrotate
     - digitalprivacy_homes.server.nginx
     - digitalprivacy_homes.server.adguardhome
+    - digitalprivacy_homes.server.reboot
     - digitalprivacy_homes.server.cockpit
     - digitalprivacy_homes.server.docker
     - digitalprivacy_homes.server.portainer
