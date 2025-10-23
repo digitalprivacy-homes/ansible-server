@@ -8,7 +8,7 @@ For more information visit:
 ```yaml
 tor:
   - # HINT: oniux is beta and is very likely to fail!
-    # Change `install_oniux` to `true` if you want to install oniux. Default is `false`.
+    # Change `install_oniux` to `true` if you want to install oniux. Default is `false`. It needs backports to be enabled as well!
     install_oniux: false
     # Enable backports repo (default is false).
     backports: false
