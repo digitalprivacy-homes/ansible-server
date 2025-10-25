@@ -155,6 +155,7 @@ filtering:
   filters_update_interval: 24
   blocked_response_ttl: 10
   filtering_enabled: true
+  rewrites_enabled: true
   parental_enabled: {{ item.parental_enabled | default(parental_enabled) }}
   safebrowsing_enabled: {{ item.safebrowsing_enabled | default(safebrowsing_enabled) }}
   protection_enabled: true
