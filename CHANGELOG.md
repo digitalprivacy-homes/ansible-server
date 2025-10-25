@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.3 (26.10.2025)
+### roles
+#### adguardhome
+Added new option `rewrites_enabled: true` which is necessary for this collection. Check https://github.com/AdguardTeam/AdGuardHome/issues/1765 and also https://github.com/AdguardTeam/AdGuardHome/issues/8072.
+
 ## 0.6.2 (23.10.2025)
 ### roles
 #### tor  
