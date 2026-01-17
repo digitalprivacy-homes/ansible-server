@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.4 (17.01.2026)
+### roles
+#### nginx
+Deleted OCSP since the certificates are based on letsencrypt. Read https://letsencrypt.org/2024/12/05/ending-ocsp.
+
 ## 0.6.3 (26.10.2025)
 ### roles
 #### adguardhome
