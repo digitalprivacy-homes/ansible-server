@@ -16,7 +16,7 @@ clear
 while true; do
     # Display menu using whiptail
     CHOICE=$(
-        whiptail --title "DIGITAL PRIVACY .HOMES" --nocancel --menu "" $(stty size) 10 \
+        whiptail --title "DIGITAL PRIVACY .HOMES" --nocancel --menu "" $(stty size) 11 \
             "1)" "Welcome/Info"   \
             "2)" "Set up your router" \
             "3)" "Server IP"  \
@@ -26,6 +26,7 @@ while true; do
             "7)" "Disable script-autostart at login via main user" \
             "8)" "Upgrade your system"  \
             "9)" "Reboot your system"  \
+            "10)" "Switch Debian repos (Tor/Normal)"  \
             "0)" "Exit" 3>&2 2>&1 1>&3
     )
 
@@ -71,7 +72,7 @@ $IP"
             echo "Script-autostart disabled.")"
             ;;
         "8)")
-            result="$(sudo apt-get upgrade -y)"
+            result="$(sudo apt-get update && sudo apt-get upgrade -y)"
             ;;
         "9)")
             result="$(read -p "Are you sure you want to reboot? <y/N> " prompt
@@ -82,6 +83,19 @@ $IP"
                         exit 0
                     fi
                     )"
+            ;;
+        "10)")
+            result="$(read -p "Do you want switch to Tor or Debian repos? <Tor/Debian> " prompt
+                    if [[ $prompt == "Tor" || $prompt == "tor" || $prompt == "T" || $prompt == "t" ]]
+                    then
+                        sudo mv /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.backup
+                        sudo mv /etc/apt/sources.list.d/debian-tor.sources.backup /etc/apt/sources.list.d/debian-tor.sources
+                        echo "Tor repos enabled."
+                    else
+                        sudo mv /etc/apt/sources.list.d/debian.sources.backup /etc/apt/sources.list.d/debian.sources
+                        sudo mv /etc/apt/sources.list.d/debian-tor.sources /etc/apt/sources.list.d/debian-tor.sources.backup
+                        echo "Debian repos enabled."
+                    fi
             ;;
         "0)")
             # Exit the loop
