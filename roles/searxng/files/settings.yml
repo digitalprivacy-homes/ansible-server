@@ -1,9 +1,13 @@
 # see https://docs.searxng.org/admin/settings/settings.html#settings-use-default-settings
 use_default_settings: true
 server:
-  # base_url is defined in the SEARXNG_BASE_URL environment variable, see .env and docker-compose.yml
+  # base_url is defined in the SEARXNG_HOSTNAME environment variable, see .env and docker-compose.yml
   secret_key: "ultrasecretkey"  # change this!
   limiter: false  # can be disabled for a private instance
   image_proxy: true
-redis:
-  url: redis://redis:6379/0
+# If you need valkey which is needed for the limiter (https://docs.searxng.org/admin/searx.limiter.html) uncomment `url` below.
+valkey:
+  # URL to connect valkey database. Is overwritten by ${SEARXNG_VALKEY_URL}.
+  # https://docs.searxng.org/admin/settings/settings_valkey.html#settings-valkey
+  # url: valkey://localhost:6379/0
+  url: false

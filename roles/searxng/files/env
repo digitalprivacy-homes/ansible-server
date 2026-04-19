@@ -1,7 +1,17 @@
-# By default listen on https://localhost
-# To change this:
-# * uncomment SEARXNG_HOSTNAME, and replace <host> by the SearXNG hostname
-# * uncomment LETSENCRYPT_EMAIL, and replace <email> by your email (require to create a Let's Encrypt certificate)
+# Read the documentation before using the `docker-compose.yml` file:
+# https://docs.searxng.org/admin/installation-docker.html
+#
+# Additional ENVs:
+# https://docs.searxng.org/admin/settings/settings_general.html#settings-general
+# https://docs.searxng.org/admin/settings/settings_server.html#settings-server
 
 SEARXNG_HOSTNAME=searxng.digitalprivacy.homes
-# LETSENCRYPT_EMAIL=<email>
+
+# Use a specific version tag. E.g. "latest" or "2026.3.25-541c6c3cb".
+SEARXNG_VERSION=latest
+
+# Listen to a specific address.
+SEARXNG_HOST=127.0.0.1
+
+# Listen to a specific port.
+SEARXNG_PORT=3333
