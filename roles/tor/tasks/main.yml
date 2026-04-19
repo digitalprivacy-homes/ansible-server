@@ -35,16 +35,25 @@
 - name: Add debian.sources tor list (/etc/apt/sources.list.d/debian.sources)
   ansible.builtin.template:
     src: templates/debians-default_tor_list.j2
-    dest: /etc/apt/sources.list.d/debian.sources
+    dest: /etc/apt/sources.list.d/debian-tor.sources
     owner: root
     group: root
     mode: '0644'
   with_items: "{{ tor | default() }}"
 
-- name: Moves the debians /etc/apt/sources.list file to /etc/apt/sources.list.backup
-  command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
-  args:
-    creates: /etc/apt/sources.list.backup
+- name: Remove the debians /etc/apt/sources.list file ...
+  ansible.builtin.file:
+    path: /etc/apt/sources.list
+    state: absent
+
+- name: ... and add the debian.sources.backup file instead (/etc/apt/sources.list.d/debian.sources.backup)
+  ansible.builtin.template:
+    src: templates/debians-default_non-tor_list.j2
+    dest: /etc/apt/sources.list.d/debian.sources.backup
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: "{{ tor | default() }}"
 
 - name: Install oniux.
   include_tasks: oniux.yml

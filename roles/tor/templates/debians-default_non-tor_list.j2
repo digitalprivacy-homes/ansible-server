@@ -1,0 +1,31 @@
+Types: deb deb-src
+URIs: https://deb.debian.org/debian
+Suites: {{ ansible_distribution_release }}
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb deb-src
+URIs: https://security.debian.org/debian-security
+Suites: {{ ansible_distribution_release }}-security
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb deb-src
+URIs: https://deb.debian.org/debian
+Suites: {{ ansible_distribution_release }}-updates
+Components: main non-free-firmware
+Enabled: yes
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+URIs: https://deb.debian.org/debian
+Suites: {{ ansible_distribution_release }}-backports
+Components: main non-free-firmware
+{% if item.backports is defined and item.backports == true %}
+Enabled: yes
+{% else %}
+Enabled: no
+{% endif %}
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
