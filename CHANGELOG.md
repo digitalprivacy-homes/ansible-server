@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.5 (19.04.2026)
+### roles
+#### tor
+Added `debian.sources.backup` file to simply choose between Tor and Debian repositories.
+#### digitalprivacy
+Added the option to choose between Tor and Debian repositories.
+#### docker
+Added installation of `python3-debian` package, which is required to add the docker repository. If the docker role is performed without the Tor role (the `python3-debian` package will also be installed in the Tor role).
+#### searxng
+searxng-docker is archived now https://github.com/searxng/searxng-docker. You can find the rework under https://github.com/searxng/searxng/commit/6b9856d6438a546cbacbcb401334c8bdd33385b6.  
+If you want to change your current docker installation check https://docs.searxng.org/admin/installation-docker.html#migrate-from-searxng-docker.
+### README.md
+Added a note, installation, updating, and removal of the devsec.hardening collection.
+
 ## 0.6.4 (17.01.2026)
 ### roles
 #### nginx
