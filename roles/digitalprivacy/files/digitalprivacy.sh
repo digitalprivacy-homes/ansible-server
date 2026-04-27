@@ -96,6 +96,7 @@ $IP"
                         sudo mv /etc/apt/sources.list.d/debian-tor.sources /etc/apt/sources.list.d/debian-tor.sources.backup
                         echo "Debian repos enabled."
                     fi
+                    )"
             ;;
         "0)")
             # Exit the loop
