@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.5-2 (27.04.2026)
+### roles
+#### digitalprivacy
+`syntax error near unexpected token ';;'` related to the latest "[Added the option to choose between Tor and Debian repositories.](https://codeberg.org/digitalprivacy-homes/ansible-server/commit/4f9024e02ff43cca9a98cc5f7893e9e283b1d099)" option. 
+
 ## 0.6.5 (19.04.2026)
 ### roles
 #### tor
